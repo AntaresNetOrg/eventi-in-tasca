@@ -22,6 +22,7 @@ I file sono esclusi dalla normalizzazione di git (`.gitattributes`): i caratteri
 | --- | --- | --- |
 | `events_all_1.html` | 06/11/2026 | `All=1`, 298 righe: casella non spuntata, quota `-`, `(*)`, `(da definire)`, icone informative, posti negativi, sottotitolo nel `title`, sigla vuota (26479), tutti e quattro i semafori |
 | `events_lazio_po.html` | 06/11/2026 | Filtri `RID` e `CID`, casella spuntata, iscritti oltre il massimo |
+| `events_empty.html` | 06/11/2026 | Ricerca senza risultati (Molise): griglia con la sola riga di messaggio, senza intestazione |
 | `event_26719.html` | 06/11/2026 | Dettaglio base, senza link di presentazione né segreteria |
 | `event_26870.html` | 06/11/2026 | Sottotitolo, contatto metodologico `(non disponibile)`, `mailto` con `%0d%0a` |
 | `event_26533.html` | 06/11/2026 | Link di presentazione, segreteria con righe vuote |

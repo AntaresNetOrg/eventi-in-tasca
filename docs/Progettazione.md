@@ -5,8 +5,8 @@ BuonaCaccia l'elenco degli eventi di un tipo, eventualmente filtrato per regione
 PDF e/o Excel da condividere con genitori e ragazzi.
 
 - **Nome:** da decidere (V-07). Nome provvisorio del pacchetto: `eventi_bc`.
-- **Stato:** analisi chiusa salvo le proposte del §0 e le verifiche del §9; fasi F0 e F1
-  completate il 06/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F2.
+- **Stato:** analisi chiusa salvo le proposte del §0 e le verifiche del §9; fasi F0, F1 e F2
+  completate il 06/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F3.
 - **Repository GitHub:** da decidere insieme al nome (V-07). Licenza MIT, © Andrea Bruno.
 - **Pubblicazione:** account sviluppatore personale di Andrea su App Store e Google Play.
 - **Sviluppo:** Claude Code in Android Studio (D-16).
@@ -85,6 +85,10 @@ Campione: 7 elenchi e 35 dettagli catturati con `tool/capture_fixtures.sh`.
   Località, Iscritti, icone `map.png` e `user.png`, Stato.
 - L'attributo `title` del link contiene il titolo e, se c'è, un carattere CR seguito dal
   sottotitolo (63 righe su 298), a volte troncato. Il testo del link è il solo titolo.
+- Ricerca senza risultati: la griglia esiste, senza intestazione, con la sola riga
+  "(nessun evento corrisponde ai criteri di ricerca impostati)".
+- Eventi con appuntamenti: l'elenco riporta comunque una località (26575 `Savona (SV)`, 26872
+  `(da definire)`).
 - Valori particolari osservati:
   - Sigla vuota (evento 26479, tipo "Speciale").
   - In `All=1` le quote sono solo `-` o `N,NN €`; gli iscritti massimi solo interi o `(*)`.
@@ -102,7 +106,7 @@ Campione: 7 elenchi e 35 dettagli catturati con `tool/capture_fixtures.sh`.
 - Stato (semaforo): `light_green.png`, `light_yellow.png`, `light_dual.png`, `light_red.png`.
   Legenda del sito: verde "Iscrizioni aperte"; giallo "aperte con un numero limitato di posti
   disponibili o leggermente in sovrannumero"; duale "aperte con posti in pesante sovrannumero";
-  rosso "Iscrizioni chiuse". Il rosso comprende però anche eventi non ancora aperti (V-13).
+  rosso "Iscrizioni chiuse", anche per eventi non ancora aperti (D-09).
 
 **Dettaglio** `https://buonacaccia.agesci.it/Event.aspx?e=<id>`
 
@@ -217,6 +221,9 @@ MIT © Andrea Bruno, `.gitignore` Flutter, badge nel README, `CLAUDE.md` alla ra
 | `light_dual` | Lista d'attesa |
 | `light_red` | Chiuse |
 
+"Chiuse" significa che in quel momento nessuno può iscriversi, qualunque sia il motivo: iscrizioni
+non ancora aperte, limiti raggiunti o termini scaduti (confermato da Andrea il 06/11/2026).
+
 ### D-10 — Icone informative
 Si estraggono dall'attributo `title` con espressioni regolari sul testo (non sul nome del file):
 più appuntamenti (sì/no), posti liberi fuori regione (intero, anche negativo), posti liberi
@@ -225,7 +232,11 @@ Moz. 45/2023 (intero). Etichetta di quest'ultimo riportata com'è sul sito.
 ### D-11 — Dettagli
 Con "Estrai dettagli": sottotitolo, capi campo (elenco), apertura e chiusura iscrizioni, link di
 presentazione, informazioni dalla segreteria (righe vuote rimosse), contatti metodologico e
-amministrativo.
+amministrativo, date e località dei singoli appuntamenti.
+
+I campi già letti dall'elenco (titolo, regione, date, quota, località, iscritti) non vengono
+sovrascritti dal dettaglio: se i valori non coincidono si aggiunge un'anomalia, perché può essere
+un aggiornamento avvenuto tra le due letture (confermato da Andrea il 06/11/2026).
 
 ### D-12 — Pubblicazione
 - Account personali. Costi e requisiti attuali da ricontrollare alla pubblicazione (V-08).
@@ -265,6 +276,10 @@ VS Code è un'alternativa valida (estensione Flutter ufficiale), ma non aggiunge
 
 Nomi di dominio in italiano. Importi in centesimi interi, mai `double`.
 
+Nel codice (`lib/domain/evento.dart`) `id`, `url`, date, `iscritti`, `branca` e `stato` sono
+nullable anche se il sito li fornisce sempre: un valore fuori formato diventa null con
+un'anomalia che riporta il testo grezzo, e l'evento resta in elenco (D-05).
+
 | Campo | Tipo | Fonte | Note |
 | --- | --- | --- | --- |
 | `id` | int | lista | da `Event.aspx?e=` |
@@ -286,6 +301,7 @@ Nomi di dominio in italiano. Importi in centesimi interi, mai `double`.
 | `capiCampo` | List<String> | dettaglio | split su ` - ` |
 | `aperturaIscrizioni`, `chiusuraIscrizioni` | data? | dettaglio | |
 | `linkPresentazione` | Uri? | dettaglio | |
+| `appuntamenti` | List<Appuntamento> | dettaglio | `dal`, `al` (data), `localita` (String?, null se vuota); lista vuota se l'evento non ne ha (V-14) |
 | `infoSegreteria` | String? | dettaglio | |
 | `contattoMetodologico`, `contattoAmministrativo` | String? | dettaglio | `%0d%0a` rimosso |
 | `anomalie` | List<String> | parser | D-05 |
@@ -411,8 +427,8 @@ eventi_bc/
 | V-10 | Layout del PDF (tabella o schede) leggibile su telefono | Mockup prima di F6 |
 | V-11 | Condizioni d'uso / `robots.txt` di BuonaCaccia | Da leggere prima di V-06 |
 | V-12 | **Risolta in F0:** il `_` viene convertito solo per iOS (`eventi_bc` → `eventiBc`); valori in §12 | Fissarli prima del primo caricamento sugli store |
-| V-13 | Etichetta del semaforo rosso: D-09 dice "Chiuse", ma il 06/11/2026, su 4 eventi rossi nel campione, 3 avevano le iscrizioni non ancora aperte e 1 era nel periodo di iscrizione. Senza dettagli l'elenco non li distingue | Decisione di Andrea; finché non c'è, D-09 invariata |
-| V-14 | Eventi in più appuntamenti: il modello dati (§3) non prevede date e località dei singoli appuntamenti. Vanno estratte con "Estrai dettagli"? | Decisione di Andrea; finché non c'è, solo `piuAppuntamenti` |
+| V-13 | **Risolta il 06/11/2026 (Andrea):** l'etichetta resta "Chiuse" anche per gli eventi non ancora aperti, perché nessuno può iscriversi (D-09) | — |
+| V-14 | **Risolta il 06/11/2026 (Andrea):** con "Estrai dettagli" si estraggono date e località dei singoli appuntamenti (D-11, §3) | — |
 
 ---
 

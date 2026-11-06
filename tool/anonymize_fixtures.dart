@@ -16,6 +16,7 @@ import 'dart:io';
 const fixtureNames = [
   'events_all_1',
   'events_lazio_po',
+  'events_empty',
   'event_26719',
   'event_26870',
   'event_26533',

@@ -13,7 +13,8 @@ Excel da condividere. È un'utilità **non ufficiale**: non sostituisce BuonaCac
   verificare). Prima di implementare una funzione, leggi le decisioni che la riguardano.
 - **Nome provvisorio:** `eventi_bc` (pacchetto Dart). Il nome definitivo è V-07: non
   inventarne uno.
-- **Stato:** F0 e F1 completate (app minima, fixture, menu di riserva). Prossima fase: F2.
+- **Stato:** F0, F1 e F2 completate (app minima, fixture, menu di riserva, parser di menu ed
+  elenco). Prossima fase: F3.
 
 ## Lingua
 

@@ -31,6 +31,8 @@ fetch "events_lazio_po"       "$BASE/Events.aspx?RID=H&CID=1010101"
 # V-02: does All=1 include events with closed subscriptions?
 fetch "events_all_1"          "$BASE/Events.aspx?All=1"
 fetch "events_lazio_po_all_1" "$BASE/Events.aspx?RID=H&CID=1010101&All=1"
+# Search without results: Molise had no events at all on 06/11/2026
+fetch "events_empty"          "$BASE/Events.aspx?RID=N&All=1"
 # V-03: do menu group entries work as CID? Levels: 0 (1000000), 1 (4010000), 2 (4000200)
 fetch "events_cid_group_lc"   "$BASE/Events.aspx?CID=1000000"
 fetch "events_cid_group_mf"   "$BASE/Events.aspx?CID=4010000"
