@@ -13,8 +13,7 @@ Excel da condividere. È un'utilità **non ufficiale**: non sostituisce BuonaCac
   verificare). Prima di implementare una funzione, leggi le decisioni che la riguardano.
 - **Nome provvisorio:** `eventi_bc` (pacchetto Dart). Il nome definitivo è V-07: non
   inventarne uno.
-- **Stato:** solo scheletro. Non esiste ancora codice Dart né cartelle `android/` e
-  `ios/`: le genera la fase F0.
+- **Stato:** F0 completata (app minima, piattaforme, dipendenze). Prossima fase: F1.
 
 ## Lingua
 
@@ -70,6 +69,9 @@ Excel da condividere. È un'utilità **non ufficiale**: non sostituisce BuonaCac
 4. `git status` e `git diff`: `flutter create` non dovrebbe sovrascrivere i file
    esistenti (*inferenza*). Se ha toccato `README.md`, `.gitignore`, `LICENSE`,
    `CLAUDE.md` o `analysis_options.yaml`, ripristinali con `git checkout -- <file>`.
+   Eccezione verificata in F0 (Flutter 3.47.9): ogni comando `flutter` aggiunge di nuovo
+   a `analysis_options.yaml` le esclusioni `build/**`, `android/**`, `ios/**`; quelle tre
+   righe restano nel repository.
 5. Controlla e annota in Progettazione §12 gli identificativi generati: `applicationId`
    Android (`android/app/build.gradle*`) e `PRODUCT_BUNDLE_IDENTIFIER` iOS
    (`ios/Runner.xcodeproj/project.pbxproj`). Diventano definitivi al primo caricamento

@@ -5,8 +5,8 @@ BuonaCaccia l'elenco degli eventi di un tipo, eventualmente filtrato per regione
 PDF e/o Excel da condividere con genitori e ragazzi.
 
 - **Nome:** da decidere (V-07). Nome provvisorio del pacchetto: `eventi_bc`.
-- **Stato:** analisi chiusa salvo le proposte del §0; scheletro del repository pronto (05/11/2026)
-  in `~/Developer/Personal/eventi_bc`; sviluppo non iniziato.
+- **Stato:** analisi chiusa salvo le proposte del §0; fase F0 completata il 06/11/2026
+  in `~/Developer/Personal/eventi_bc`; prossima fase F1.
 - **Repository GitHub:** da decidere insieme al nome (V-07). Licenza MIT, © Andrea Bruno.
 - **Pubblicazione:** account sviluppatore personale di Andrea su App Store e Google Play.
 - **Sviluppo:** Claude Code in Android Studio (D-16).
@@ -32,7 +32,7 @@ Andrea le rivede qui. Quelle non contestate valgono come approvate.
 | P-07 | Ordinamento per data di partenza, poi titolo | D-15 | Ordine del sito ("per tipologia") |
 | P-08 | Riverpod per lo stato dell'app | §6 | Provider, Bloc, solo `setState` |
 | P-09 | PDF A4 orizzontale; tabella o scheda per evento da decidere con un mockup | §5, V-10 | — |
-| P-10 | Organizzazione `it.bruand81` per gli identificativi dell'app (es. `it.bruand81.eventi_bc` su Android) | §12 | Altro dominio inverso |
+| P-10 | **Confermata (06/11/2026).** Organizzazione `it.bruand81` per gli identificativi dell'app (es. `it.bruand81.eventi_bc` su Android) | §12 | Altro dominio inverso |
 | P-11 | Fixture HTML anonimizzate come contratto comune futuro con BCEventScraper-rs | D-02 | — |
 | P-12 | Struttura `lib/` in data / parsing / domain / export / ui | §7 | — |
 | P-13 | Avviso iniziale "app non ufficiale" mostrato a ogni avvio (non si può ricordare la chiusura: niente persistenza) | D-00 | Solo schermata Informazioni |
@@ -307,7 +307,7 @@ Nome file: `eventi_<tipo>_<regione>_<aaaammgg>.pdf|xlsx`.
 
 | Componente | Scelta |
 | --- | --- |
-| Flutter / Dart | Ultima stabile (3.47.9 con Dart 3.13.7 al 29/10/2026, fonte docs Shorebird); versione effettiva annotata in F0 |
+| Flutter / Dart | Flutter 3.47.9 con Dart 3.13.7 (`flutter --version` del 06/11/2026; ultima stabile secondo l'indice delle release di Flutter) |
 | HTTP | `http` |
 | Parsing HTML | `html` |
 | PDF | `pdf` |
@@ -321,9 +321,25 @@ Nome file: `eventi_<tipo>_<regione>_<aaaammgg>.pdf|xlsx`.
 Versioni e licenze dei pacchetti: scelte da `flutter pub add` in F0 e riportate qui, mai scritte
 a memoria. Esclusi pacchetti con licenze non open source o con analitica.
 
+Rilevati il 06/11/2026 da `pubspec.lock` e dall'API di pub.dev:
+
 | Pacchetto | Versione | Licenza |
 | --- | --- | --- |
-| *(da compilare in F0)* | | |
+| `http` | 1.6.0 | BSD-3-Clause |
+| `html` | 0.15.7 | MIT (pub.dev indica "unknown"; verificato leggendo il `LICENSE` del pacchetto) |
+| `pdf` | 3.12.0 | Apache-2.0 |
+| `excel` | 4.0.6 | MIT |
+| `share_plus` | 13.3.1 | BSD-3-Clause |
+| `path_provider` | 2.1.6 | BSD-3-Clause |
+| `url_launcher` | 6.3.3 | BSD-3-Clause |
+| `intl` | 0.20.3 | BSD-3-Clause |
+| `flutter_riverpod` | 3.4.3 | MIT |
+| `cupertino_icons` (da `flutter create`) | 1.0.9 | MIT |
+| `flutter_lints` (solo sviluppo) | 6.0.0 | BSD-3-Clause |
+
+Anche le dipendenze transitive in `pubspec.lock` hanno licenza MIT, BSD-3-Clause o Apache-2.0.
+`excel` 4.0.6 richiede `archive ^3.6.1`: è il vincolo che probabilmente trattiene `pdf` a 3.12.0
+(*inferenza*; disponibile 3.13.1).
 
 ---
 
@@ -375,7 +391,7 @@ eventi_bc/
 | V-09 | 12 tester per il test chiuso su Play | — |
 | V-10 | Layout del PDF (tabella o schede) leggibile su telefono | Mockup prima di F6 |
 | V-11 | Condizioni d'uso / `robots.txt` di BuonaCaccia | Da leggere prima di V-06 |
-| V-12 | Identificativi generati da `flutter create` (applicationId Android, bundle id iOS): un `_` nel nome potrebbe essere convertito per iOS (*inferenza*) | Annotarli in §12 dopo F0; fissarli prima del primo caricamento sugli store |
+| V-12 | **Risolta in F0:** il `_` viene convertito solo per iOS (`eventi_bc` → `eventiBc`); valori in §12 | Fissarli prima del primo caricamento sugli store |
 
 ---
 
@@ -417,7 +433,8 @@ Preparato senza Flutter installato nell'ambiente di analisi, quindi:
 - **non contiene** `pubspec.yaml`, `lib/`, `android/`, `ios/`: li genera `flutter create` in F0
   con la procedura di CLAUDE.md (commit iniziale prima, controllo con `git diff` dopo);
 - **non fissa versioni** di pacchetti: le sceglie `flutter pub add` in F0;
-- versioni delle action GitHub (`actions/checkout@v4`, `subosito/flutter-action@v2`) da aggiornare in F0;
+- versioni delle action GitHub aggiornate in F0 (06/11/2026): `actions/checkout@v7` (node24),
+  `subosito/flutter-action@v2` (ultima major; v2.23.0, composite, usa `actions/cache@v5` su node24);
 - nessuna configurazione di esecuzione `.run/`: Android Studio crea quella di `main.dart` all'apertura
   (*inferenza*).
 
@@ -425,8 +442,8 @@ Identificativi (P-10, V-12):
 
 | Piattaforma | Identificativo | Stato |
 | --- | --- | --- |
-| Android `applicationId` | *(da annotare dopo F0)* | |
-| iOS `PRODUCT_BUNDLE_IDENTIFIER` | *(da annotare dopo F0)* | |
+| Android `applicationId` | `it.bruand81.eventi_bc` | Provvisorio; P-10 confermata da Andrea il 06/11/2026 |
+| iOS `PRODUCT_BUNDLE_IDENTIFIER` | `it.bruand81.eventiBc` | Provvisorio; P-10 confermata da Andrea il 06/11/2026 |
 
 Gli identificativi non si possono cambiare dopo il primo caricamento sugli store: se il nome
 definitivo (V-07) arriva dopo F0, vanno aggiornati prima di F7.

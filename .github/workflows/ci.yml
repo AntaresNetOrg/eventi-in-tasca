@@ -1,5 +1,4 @@
 # Analisi e test a ogni push e pull request.
-# Versioni delle action da aggiornare alle ultime stabili in F0.
 name: CI
 
 on:
@@ -10,7 +9,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
