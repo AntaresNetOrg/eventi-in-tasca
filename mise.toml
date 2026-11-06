@@ -28,6 +28,14 @@ run = [
 description = "Scarica le pagine di BuonaCaccia in tool/fixtures_raw/ (non anonimizzate, ignorate da git)"
 run = "bash tool/capture_fixtures.sh"
 
+[tasks.anonymize]
+description = "Produce test/fixtures/ dalle pagine in tool/fixtures_raw/"
+run = "dart run tool/anonymize_fixtures.dart"
+
+[tasks.menu]
+description = "Genera assets/menu/menu.json dalle pagine in tool/fixtures_raw/"
+run = "dart run tool/generate_menu.dart"
+
 [tasks.clean]
 description = "Pulizia della build"
 run = "flutter clean"

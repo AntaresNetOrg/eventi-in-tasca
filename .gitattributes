@@ -1,0 +1,3 @@
+# Fixtures must stay byte-identical: CR characters are part of the site's data
+# (they separate title and subtitle in the `title` attribute).
+test/fixtures/*.html -text

@@ -68,6 +68,7 @@ flutter:
 
   assets:
     - assets/fonts/OFL.txt
+    - assets/menu/menu.json
 
   fonts:
     - family: TitilliumWeb

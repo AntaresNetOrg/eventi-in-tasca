@@ -13,7 +13,7 @@ Excel da condividere. È un'utilità **non ufficiale**: non sostituisce BuonaCac
   verificare). Prima di implementare una funzione, leggi le decisioni che la riguardano.
 - **Nome provvisorio:** `eventi_bc` (pacchetto Dart). Il nome definitivo è V-07: non
   inventarne uno.
-- **Stato:** F0 completata (app minima, piattaforme, dipendenze). Prossima fase: F1.
+- **Stato:** F0 e F1 completate (app minima, fixture, menu di riserva). Prossima fase: F2.
 
 ## Lingua
 
@@ -118,24 +118,21 @@ lib/
 └── ui/         # schermate Ricerca, Avanzamento, Risultati, Informazioni
 ```
 
-Riferimenti per i parser (Progettazione §1.2):
-- griglia `table#MainContent_EventsGridView`;
-- dettaglio `span#MainContent_EventFormView_` + `lbTitle`, `lblSottotitolo`, `lbOwners`,
-  `lbLocation`, `lbSubsFrom`, `lbSubsTo`, `lbSeats`, `lbTaken` (da BCEventScraper-rs, da
-  riconfermare in F1);
-- link di presentazione, informazioni dalla segreteria, contatti, `<select>` dei menu:
-  id **non noti**, da ricavare dalle fixture in F1.
+Riferimenti per i parser: Progettazione §1.2, verificata sull'HTML grezzo in F1. Attenzione:
+nella griglia l'id `MainContent_EventsGridView_Type_N` compare due volte per riga (sigla e
+regione).
 
 ## Fixture
 
 - `tool/capture_fixtures.sh` scarica le pagine in `tool/fixtures_raw/` (ignorata da git).
-- Lo script di anonimizzazione (da scrivere in F1, in Dart sotto `tool/`) produce
-  `test/fixtures/` e deve:
-  - sostituire i nomi dei capi campo con nomi fittizi fissi (es. `CAPO UNO - CAPO DUE`);
-  - sostituire indirizzi email non istituzionali (quelli `@agesci.it` e
-    `@<regione>.agesci.it` possono restare);
-  - svuotare `__VIEWSTATE`, `__EVENTVALIDATION` e campi nascosti simili;
-  - lasciare intatto tutto il resto (struttura, id, classi, icone, `title`).
+- `tool/anonymize_fixtures.dart` produce `test/fixtures/`:
+  - sostituisce i nomi dei capi campo con nomi fittizi fissi (es. `CAPO UNO - CAPO DUE`);
+  - sostituisce indirizzi email non istituzionali (quelli `@agesci.it` e
+    `@<regione>.agesci.it` restano);
+  - svuota `__VIEWSTATE`, `__EVENTVALIDATION` e campi nascosti simili;
+  - lascia intatto tutto il resto (struttura, id, classi, icone, `title`).
+- Lo script non riconosce nomi e IBAN nel testo libero della segreteria: pubblica solo le
+  pagine in `fixtureNames`, scelte senza questi dati (vedi `test/fixtures/README.md`).
 - Prima di committare una fixture, controlla a mano che non contenga nomi o recapiti reali.
 
 ## Test
@@ -150,7 +147,9 @@ Riferimenti per i parser (Progettazione §1.2):
 mise run analyze     # flutter analyze
 mise run test        # flutter test
 mise run format      # dart format
-mise run fixtures    # cattura le pagine in tool/fixtures_raw/ (F1)
+mise run fixtures    # cattura le pagine in tool/fixtures_raw/
+mise run anonymize   # produce test/fixtures/ dalle pagine catturate
+mise run menu        # genera assets/menu/menu.json dalle pagine catturate
 flutter run          # su emulatore o dispositivo
 ```
 

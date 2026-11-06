@@ -5,8 +5,8 @@ BuonaCaccia l'elenco degli eventi di un tipo, eventualmente filtrato per regione
 PDF e/o Excel da condividere con genitori e ragazzi.
 
 - **Nome:** da decidere (V-07). Nome provvisorio del pacchetto: `eventi_bc`.
-- **Stato:** analisi chiusa salvo le proposte del §0; fase F0 completata il 06/11/2026
-  in `~/Developer/Personal/eventi_bc`; prossima fase F1.
+- **Stato:** analisi chiusa salvo le proposte del §0 e le verifiche del §9; fasi F0 e F1
+  completate il 06/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F2.
 - **Repository GitHub:** da decidere insieme al nome (V-07). Licenza MIT, © Andrea Bruno.
 - **Pubblicazione:** account sviluppatore personale di Andrea su App Store e Google Play.
 - **Sviluppo:** Claude Code in Android Studio (D-16).
@@ -63,22 +63,33 @@ Nota per BCEventScraper-rs, rilevata durante l'analisi: `bc.rs` usa `BASE = "htt
 Il portale avvisa che il vecchio indirizzo sarà dismesso e che il reindirizzamento automatico
 resta attivo fino al 28/02/2027. Va portato su `buonacaccia.agesci.it`.
 
-### 1.2 Struttura del sito (verificata il 05/11/2026)
+### 1.2 Struttura del sito (verificata sull'HTML grezzo il 06/11/2026, F1)
 
-Verificata leggendo le pagine renderizzate (WebFetch), non l'HTML grezzo: l'ambiente di analisi
-non raggiunge il sito. Gli id HTML vengono da BCEventScraper-rs e vanno riconfermati (V-01).
+Campione: 7 elenchi e 35 dettagli catturati con `tool/capture_fixtures.sh`.
 
-**Lista** `https://buonacaccia.agesci.it/Events.aspx?RID=<regione>&CID=<tipo>`
-- Semplice GET, nessun postback necessario per filtrare. Verificati: `RID=H` Lazio,
-  `CID=1010101` Piccole Orme. Da BCEventScraper-rs: `RID=A` Nazionale, `RID=E` Campania,
-  `CID=2010101` Specialità, `2010102` Capi Squadriglia, `2010104` Competenza,
-  `2010105` Candidature Competenza; parametro `All=1` per "tutti gli eventi" (V-02).
-- Griglia `table#MainContent_EventsGridView` (da BCEventScraper-rs). Nessuna paginazione con
-  ~200 eventi senza filtri (V-04).
-- Colonne: Tipo (icona `branch_xx.png` + sigla, es. `PO`, `CapiSq`), Titolo (link a
-  `Event.aspx?e=<id>`; l'attributo `title` contiene titolo + sottotitolo, a volte troncato),
-  Regione, Partenza, Rientro, Quota, Località, Iscritti, icone informative, Stato.
+**Lista** `https://buonacaccia.agesci.it/Events.aspx?RID=<regione>&CID=<tipo>[&All=1]`
+- Semplice GET, nessun postback necessario per filtrare.
+- Menu: `select#MainContent_ddlRegion` (21 regioni, `A` Nazionale; `value=""` "Tutte le
+  regioni") e `select#MainContent_ddlCategory` (85 tipi; `value=""` "Tutti gli eventi").
+  Etichette con prefissi `- `, `--- `, `----> `; le voci di gruppo hanno classe `LevelN`.
+  Il menu `ddlRegionSelector` della barra in alto non include Nazionale: non usarlo.
+- Senza `All=1` la casella `MainContent_cbShowUseful` "Mostra solo gli eventi con iscrizioni
+  aperte o da aprire" è spuntata; con `All=1` non lo è. Il 06/11/2026: 198 righe contro 298,
+  e le 100 in più sono tutte `light_red` (V-02).
+- Griglia `table#MainContent_EventsGridView`, nessun paginatore (V-04). Id di riga con indice N:
+  `..._EventIcon_N_imgBranch_N`, `..._Fee_N`, `..._Location_N`, `..._Taken_N`, `..._SeatsMax_N`,
+  `..._outRegion_N`, `..._moz45_2023_N`. **`..._Type_N` compare due volte per riga: sigla e
+  regione**, quindi vanno distinte per colonna. Partenza, rientro e semaforo non hanno id.
+- Colonne: Tipo (icona `branch_xx.png` + sigla, es. `PO`, `CapiSq`), una colonna con l'icona
+  `calendar.png`, Titolo (link a `Event.aspx?e=<id>`), Regione, Partenza, Rientro, Quota,
+  Località, Iscritti, icone `map.png` e `user.png`, Stato.
+- L'attributo `title` del link contiene il titolo e, se c'è, un carattere CR seguito dal
+  sottotitolo (63 righe su 298), a volte troncato. Il testo del link è il solo titolo.
 - Valori particolari osservati:
+  - Sigla vuota (evento 26479, tipo "Speciale").
+  - In `All=1` le quote sono solo `-` o `N,NN €`; gli iscritti massimi solo interi o `(*)`.
+  - Non sono apparse sigle regionali diverse da `EmiRo`, `FVG` e `TAA`, ma Molise e Valle
+    d'Aosta non hanno eventi nel campione.
   - Quota `-` (evento senza quota); quote in formato `21,00 €`.
   - Località `(da definire)`.
   - Iscritti `29 / 28` (gli iscritti possono superare il massimo: lista d'attesa) e `20 / (*)`
@@ -89,29 +100,36 @@ non raggiunge il sito. Gli id HTML vengono da BCEventScraper-rs e vanno riconfer
   - `map.png` "Posti liberi per fuori regione: N" (N può essere negativo, es. `-2`);
   - `user.png` "Posti liberi Moz.45/2023: N".
 - Stato (semaforo): `light_green.png`, `light_yellow.png`, `light_dual.png`, `light_red.png`.
+  Legenda del sito: verde "Iscrizioni aperte"; giallo "aperte con un numero limitato di posti
+  disponibili o leggermente in sovrannumero"; duale "aperte con posti in pesante sovrannumero";
+  rosso "Iscrizioni chiuse". Il rosso comprende però anche eventi non ancora aperti (V-13).
 
 **Dettaglio** `https://buonacaccia.agesci.it/Event.aspx?e=<id>`
 
-Id da BCEventScraper-rs (`span#MainContent_EventFormView_*`):
+Id con prefisso `MainContent_EventFormView_` (pagine che li contengono, su 35):
 
-| Campo | Id |
-| --- | --- |
-| Titolo | `lbTitle` |
-| Sottotitolo | `lblSottotitolo` |
-| Capi campo | `lbOwners` (stringa unica, nomi separati da ` - `) |
-| Località | `lbLocation` |
-| Apertura iscrizioni | `lbSubsFrom` |
-| Chiusura iscrizioni | `lbSubsTo` |
-| Posti | `lbSeats` |
-| Iscritti | `lbTaken` |
+| Campo | Id | Pagine | Valori |
+| --- | --- | --- | --- |
+| Titolo | `lbTitle` | 35 | Inizia con `[Regione] `, nome completo |
+| Sottotitolo | `lblSottotitolo` | 11 | |
+| Capi campo | `lbOwners` | 35 | Stringa unica, da 1 a 4 nomi separati da ` - ` |
+| Icona branca | `EventIcon_imgBranch` | 35 | |
+| Sigla | `Type` | 35 | |
+| Regione | `lbRegion` | 35 | Nome completo |
+| Partenza, rientro | `lbEventFrom`, `lbEventTo` | 35 | `gg/mm/aaaa` |
+| Località | `lbLocation` | 33 | Assente con gli appuntamenti |
+| Appuntamenti | `pnlAppointments`, `gvAppointments` | 2 | Righe `gg/mm/aaaa - gg/mm/aaaa` + località (V-14) |
+| Quota | `lbFee` | 35 | `N,NN €` o `nessuna quota d'iscrizione` |
+| Link di presentazione | `hlURL` | 35 | `<a href>` oppure, senza `href`, "(link di presentazione non disponibile)" |
+| Informazioni dalla segreteria | `lbDescription` | 19 | HTML (V-05) |
+| Posti | `lbSeats` | 35 | Intero o `illimitati` |
+| Apertura, chiusura iscrizioni | `lbSubsFrom`, `lbSubsTo` | 35 | `gg/mm/aaaa` |
+| Iscritti | `lbTaken` | 35 | Intero |
+| Contatto metodologico | `hlPoC` | 35 | `<a href="mailto:">` oppure, senza `href`, "(non disponibile)" |
+| Contatto amministrativo | `hlAdmin` | 35 | Come sopra; l'`href` può avere `%0d%0a` finale |
 
-Campi osservati ma **con id non noti** (V-01):
-- link di presentazione (icona `link.png`): URL esterno (es. evento 26533,
-  `foca.agesci.it/...`) oppure il testo "(link di presentazione non disponibile)";
-- "Informazioni dalla segreteria": sezione presente solo in alcuni eventi, testo libero seguito
-  da molte righe vuote (26533: "Campo fisso");
-- contatti metodologici e amministrativi: email oppure "(non disponibile)"; gli `href mailto:`
-  possono avere un `%0d%0a` finale.
+Nella tabella degli appuntamenti l'id `gvAppointments_Type_N` compare due volte per riga (date
+e località), e la località può essere vuota.
 
 Il testo "Apriranno il …" resta tale anche a iscrizioni già aperte (26533): l'etichetta non indica lo stato.
 
@@ -251,8 +269,8 @@ Nomi di dominio in italiano. Importi in centesimi interi, mai `double`.
 | --- | --- | --- | --- |
 | `id` | int | lista | da `Event.aspx?e=` |
 | `url` | Uri | lista | assoluto su `buonacaccia.agesci.it` |
-| `sigla` | String | lista | `PO`, `CapiSq`, `CFM L/C`… |
-| `branca` | enum | lista | da `branch_lc/eg/rs/fc/aa.png`; `aa` = riunioni e assemblee (*inferenza*) |
+| `sigla` | String | lista | `PO`, `CapiSq`, `CFM L/C`…; può essere vuota |
+| `branca` | enum | lista | da `branch_lc/eg/rs/fc/aa.png`; nel campione `aa` ha sigle di assemblee e consigli (`AssReg`, `AssZona`, `ConsReg`, `AltroReg`) e l'evento "Speciale" con sigla vuota |
 | `titolo` | String | lista | |
 | `regione` | String | lista | nome completo; `EmiRo`, `FVG`, `TAA` convertiti; sigla ignota → testo grezzo + anomalia |
 | `partenza`, `rientro` | data | lista | `gg/mm/aaaa` |
@@ -264,7 +282,7 @@ Nomi di dominio in italiano. Importi in centesimi interi, mai `double`.
 | `piuAppuntamenti` | bool | lista | D-10 |
 | `postiFuoriRegione` | int? | lista | D-10 |
 | `postiMoz45` | int? | lista | D-10 |
-| `sottotitolo` | String? | dettaglio | |
+| `sottotitolo` | String? | dettaglio | Disponibile anche in lista, dopo il CR nel `title`, ma a volte troncato |
 | `capiCampo` | List<String> | dettaglio | split su ` - ` |
 | `aperturaIscrizioni`, `chiusuraIscrizioni` | data? | dettaglio | |
 | `linkPresentazione` | Uri? | dettaglio | |
@@ -354,8 +372,9 @@ eventi_bc/
 ├── android/  ios/             # (F0) generati da flutter create
 ├── assets/fonts/              # Titillium Web + OFL.txt
 ├── assets/menu/               # (F1) elenco di riserva regioni/tipi (D-03)
-├── test/fixtures/             # (F1) HTML anonimizzati
+├── test/fixtures/             # HTML anonimizzati
 ├── tool/capture_fixtures.sh   # cattura pagine in tool/fixtures_raw/ (ignorata da git)
+├── tool/anonymize_fixtures.dart, tool/generate_menu.dart
 └── docs/Progettazione.md, docs/privacy.md (bozza)
 ```
 
@@ -380,11 +399,11 @@ eventi_bc/
 
 | N. | Verifica | Come si procede intanto |
 | --- | --- | --- |
-| V-01 | Su HTML grezzo: id della griglia, dei `<select>` e dei loro `value`, degli span del dettaglio (anche link di presentazione, segreteria, contatti) su `buonacaccia.agesci.it` | Id di BCEventScraper-rs + etichette di testo |
-| V-02 | "Solo iscrizioni aperte o da aprire": parametro GET (`All=`?) o postback? | Interruttore nascosto se richiede postback |
-| V-03 | Le voci di gruppo del menu tipi funzionano come `CID`? | Solo voci foglia |
-| V-04 | La griglia ha paginazione oltre una certa soglia? | Nessuna paginazione |
-| V-05 | "Informazioni dalla segreteria" può contenere link o formattazione? | Solo testo |
+| V-01 | **Risolta in F1:** id della griglia, dei `<select>` e del dettaglio confermati e completati sull'HTML grezzo (§1.2) | — |
+| V-02 | **Risolta in F1:** parametro GET. Senza `All=1` solo eventi con iscrizioni aperte o da aprire, con `All=1` tutti (§1.2) | P-03 realizzabile senza postback |
+| V-03 | **Risolta in F1:** le voci di gruppo funzionano come `CID` ai livelli provati. `1000000` L/C: 15 righe; `4000200` CFM: 27 righe di soli CFM L/C, E/G, R/S; `4010000` Moduli Formativi: 65 righe di MF e formatori | P-04 realizzabile |
+| V-04 | **Risolta in F1, entro il volume osservato:** nessun paginatore con 298 righe (`All=1`). Oltre questo numero non è verificabile | Nessuna paginazione; il test settimanale può controllarlo |
+| V-05 | **Risolta in F1:** sì, è HTML. Nel campione: `<p>`, `<br />`, `<strong>`, `<a href>`, entità (`&agrave;`, `&nbsp;`). Può citare persone reali e IBAN | Il parser deve convertirlo in testo conservando gli URL; attenzione ai dati personali nelle fixture |
 | V-06 | Autorizzazione scritta AGESCI: a chi chiederla, e se copre scraping, nome e logo | Nessun logo (P-06) |
 | V-07 | Nome dell'app e posizione del repository GitHub | Nome provvisorio `eventi_bc` |
 | V-08 | Costi e requisiti attuali di Apple Developer Program e Google Play Console; obbligo di informativa privacy | Da verificare alla pubblicazione |
@@ -392,6 +411,8 @@ eventi_bc/
 | V-10 | Layout del PDF (tabella o schede) leggibile su telefono | Mockup prima di F6 |
 | V-11 | Condizioni d'uso / `robots.txt` di BuonaCaccia | Da leggere prima di V-06 |
 | V-12 | **Risolta in F0:** il `_` viene convertito solo per iOS (`eventi_bc` → `eventiBc`); valori in §12 | Fissarli prima del primo caricamento sugli store |
+| V-13 | Etichetta del semaforo rosso: D-09 dice "Chiuse", ma il 06/11/2026, su 4 eventi rossi nel campione, 3 avevano le iscrizioni non ancora aperte e 1 era nel periodo di iscrizione. Senza dettagli l'elenco non li distingue | Decisione di Andrea; finché non c'è, D-09 invariata |
+| V-14 | Eventi in più appuntamenti: il modello dati (§3) non prevede date e località dei singoli appuntamenti. Vanno estratte con "Estrai dettagli"? | Decisione di Andrea; finché non c'è, solo `piuAppuntamenti` |
 
 ---
 

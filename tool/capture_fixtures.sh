@@ -28,11 +28,18 @@ fetch() {
 # Elenchi (casi verificati il 05/11/2026, Progettazione §1.2)
 fetch "events_all"            "$BASE/Events.aspx"
 fetch "events_lazio_po"       "$BASE/Events.aspx?RID=H&CID=1010101"
+# V-02: does All=1 include events with closed subscriptions?
+fetch "events_all_1"          "$BASE/Events.aspx?All=1"
+fetch "events_lazio_po_all_1" "$BASE/Events.aspx?RID=H&CID=1010101&All=1"
+# V-03: do menu group entries work as CID? Levels: 0 (1000000), 1 (4010000), 2 (4000200)
+fetch "events_cid_group_lc"   "$BASE/Events.aspx?CID=1000000"
+fetch "events_cid_group_mf"   "$BASE/Events.aspx?CID=4010000"
+fetch "events_cid_group_cfm"  "$BASE/Events.aspx?CID=4000200"
 
-# Dettagli: 26719 (base), 26870 (sottotitolo), 26533 (link di presentazione + segreteria)
+# Dettagli: i casi coperti sono elencati in test/fixtures/README.md
 IDS=("$@")
 if [ ${#IDS[@]} -eq 0 ]; then
-  IDS=(26719 26870 26533)
+  IDS=(26719 26870 26533 26575 26698 26886 26678 26770 26748)
 fi
 for id in "${IDS[@]}"; do
   fetch "event_$id" "$BASE/Event.aspx?e=$id"
