@@ -1,0 +1,33 @@
+# Task del progetto. Esegui con: mise run <task>
+#
+# Flutter non è gestito da mise: installalo con il metodo ufficiale (o fvm).
+# Se vuoi gestirlo con mise, verifica prima che il plugin esista
+# (`mise registry | grep -i flutter`) e poi aggiungi una sezione [tools].
+
+[tasks.analyze]
+description = "Analisi statica"
+run = "flutter analyze"
+
+[tasks.test]
+description = "Test unitari (senza rete)"
+run = "flutter test"
+
+[tasks.format]
+description = "Formattazione del codice"
+run = "dart format lib test tool"
+
+[tasks.check]
+description = "Formattazione verificata, analisi e test (come in CI)"
+run = [
+  "dart format --output=none --set-exit-if-changed lib test",
+  "flutter analyze",
+  "flutter test",
+]
+
+[tasks.fixtures]
+description = "Scarica le pagine di BuonaCaccia in tool/fixtures_raw/ (non anonimizzate, ignorate da git)"
+run = "bash tool/capture_fixtures.sh"
+
+[tasks.clean]
+description = "Pulizia della build"
+run = "flutter clean"

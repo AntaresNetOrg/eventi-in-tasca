@@ -1,0 +1,75 @@
+# --- Flutter / Dart ---
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+/coverage/
+*.g.dart.incremental
+# Symbolication / obfuscation output
+app.*.symbols
+app.*.map.json
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# --- Android ---
+/android/.gradle/
+/android/captures/
+/android/local.properties
+/android/key.properties
+/android/app/upload-keystore.jks
+*.keystore
+*.jks
+/android/**/GeneratedPluginRegistrant.java
+/android/**/gradle-wrapper.jar
+/android/.kotlin/
+
+# --- iOS ---
+/ios/Pods/
+/ios/.symlinks/
+/ios/Flutter/App.framework
+/ios/Flutter/Flutter.framework
+/ios/Flutter/Flutter.podspec
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/ephemeral/
+/ios/Flutter/flutter_export_environment.sh
+/ios/Runner/GeneratedPluginRegistrant.*
+/ios/**/xcuserdata/
+/ios/**/*.xcworkspace/xcuserdata/
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# --- IDE (Android Studio / IntelliJ) ---
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# --- macOS ---
+.DS_Store
+
+# --- Progetto ---
+# HTML scaricati dal sito, NON anonimizzati: mai nel repository (D-05)
+/tool/fixtures_raw/
+# File esportati durante le prove manuali
+*.pdf
+*.xlsx
+!docs/**/*.pdf
+
+# --- Claude Code: stato locale per utente (settings.json resta tracciato) ---
+/.claude/settings.local.json
+
+# --- Segreti ---
+.env
+*.p8
+*.p12
+*.mobileprovision
