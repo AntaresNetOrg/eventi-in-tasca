@@ -6,8 +6,8 @@ PDF e/o Excel da condividere con genitori e ragazzi.
 
 - **Nome:** "Eventi in tasca" (V-07, deciso da Andrea l'08/11/2026). Il pacchetto Dart resta
   `eventi_bc`: è interno e non compare agli utenti.
-- **Stato:** analisi chiusa salvo le verifiche aperte del §9; fasi F0–F4 completate entro
-  l'08/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F5.
+- **Stato:** analisi chiusa salvo le verifiche aperte del §9; fasi F0–F5 completate entro
+  l'08/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F6.
 - **Repository GitHub:** https://github.com/AntaresNetOrg/eventi-in-tasca, pubblico.
   Licenza MIT, © Andrea Bruno.
 - **Pubblicazione:** account sviluppatore personale di Andrea su App Store e Google Play.
