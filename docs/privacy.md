@@ -1,24 +1,62 @@
-# Informativa sulla privacy (bozza)
+---
+title: Informativa sulla privacy
+permalink: /privacy
+---
 
-> Bozza da completare prima della pubblicazione (fase F7). Va pubblicata a un indirizzo
-> pubblico (proposta: GitHub Pages del repository) e indicata nelle schede degli store.
+# Eventi in tasca — Informativa sulla privacy
 
-**Titolare e contatto:** Andrea Bruno — contatto da definire.
+<!-- TODO(F7, Andrea): contact address and publication date, then enable GitHub Pages. -->
 
-**Dati raccolti:** nessuno.
+Ultimo aggiornamento: **[data di pubblicazione]**
 
-- L'app non richiede registrazione né credenziali.
-- L'app non salva dati sul dispositivo. Il file PDF o Excel creato per la condivisione è
-  temporaneo e viene cancellato dopo la condivisione e a ogni avvio.
-- L'app non usa strumenti di analisi, tracciamento o pubblicità.
-- L'app non invia dati a server dello sviluppatore: non esistono server dello sviluppatore.
+**Sviluppatore e contatto:** Andrea Bruno — **[indirizzo email di contatto]**
 
-**Connessioni di rete:** l'app scarica pagine pubbliche dal portale BuonaCaccia
-(`buonacaccia.agesci.it`), come farebbe un browser. Per il trattamento dei dati da parte
-di BuonaCaccia vale l'informativa di quel sito.
+Eventi in tasca è un'app gratuita e **non ufficiale**: semplifica la consultazione degli
+eventi di BuonaCaccia; iscrizioni e informazioni ufficiali restano su
+[buonacaccia.agesci.it](https://buonacaccia.agesci.it). Non è un prodotto di AGESCI.
 
-**Contenuti esportati:** i file contengono informazioni pubblicate su BuonaCaccia (per
-esempio i nomi dei capi campo). Chi li condivide ne è responsabile.
+## Dati raccolti
 
-**App non ufficiale:** l'app non è un prodotto ufficiale AGESCI e non sostituisce
-BuonaCaccia.
+**Nessuno.** In particolare:
+
+- l'app non richiede registrazione, account o credenziali;
+- l'app non usa strumenti di analisi, tracciamento, pubblicità o segnalazione degli errori;
+- l'app non invia dati allo sviluppatore: non esistono server dello sviluppatore;
+- l'app non accede a contatti, posizione, foto, fotocamera, microfono o altri dati del
+  dispositivo.
+
+## Dati sul dispositivo
+
+L'app non conserva ricerche, risultati o preferenze: chiudendola non resta nulla.
+
+L'unica eccezione è il file PDF o Excel creato quando tocchi "Condividi". Il file viene
+scritto nella cartella temporanea dell'app, accessibile solo all'app stessa, e viene
+cancellato quando crei un nuovo file e a ogni avvio dell'app. Se lo condividi o lo salvi
+altrove dal menu di condivisione, quella copia è gestita dall'app che hai scelto.
+
+## Connessioni di rete
+
+L'app scarica dal portale BuonaCaccia (`buonacaccia.agesci.it`) le stesse pagine pubbliche
+dell'elenco e del dettaglio degli eventi che chiunque può aprire con un browser. Le
+richieste contengono solo i filtri scelti (tipo di evento, regione, iscrizioni aperte) e
+il nome dell'app; come per qualunque sito, BuonaCaccia riceve l'indirizzo IP della
+connessione. Per il trattamento dei dati da parte di BuonaCaccia vale
+[l'informativa di quel sito](https://buonacaccia.agesci.it/Privacy.aspx).
+
+I collegamenti alle pagine degli eventi si aprono nel browser del dispositivo.
+
+## Contenuti esportati
+
+I file esportati contengono informazioni già pubblicate su BuonaCaccia, che possono
+includere i nomi dei capi campo e i recapiti delle segreterie. Chi condivide i file ne è
+responsabile: condividili solo con chi ne ha bisogno.
+
+## Minori
+
+L'app è pensata per capi e genitori e non raccoglie dati di nessuno, minori compresi.
+
+## Modifiche
+
+Eventuali modifiche a questa informativa saranno pubblicate a questo indirizzo, con la
+data di aggiornamento. Il codice sorgente dell'app è pubblico:
+[github.com/AntaresNetOrg/eventi-in-tasca](https://github.com/AntaresNetOrg/eventi-in-tasca).

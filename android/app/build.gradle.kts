@@ -1,7 +1,20 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+// Upload key for Google Play (docs/Pubblicazione.md §3.2). android/key.properties and the
+// keystore are never committed. Without them, release APKs (`flutter run --release`) are
+// signed with the debug key for local testing, while the App Bundle for the store refuses to
+// build (see the bundleRelease check below).
+val keystorePropertiesFile = rootProject.file("key.properties")
+val hasUploadKey = keystorePropertiesFile.exists()
+val keystoreProperties = Properties().apply {
+    if (hasUploadKey) FileInputStream(keystorePropertiesFile).use { load(it) }
 }
 
 android {
@@ -15,27 +28,39 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "org.antaresnet.eventi_in_tasca"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        // Uses the version code from pubspec.yaml. When using split APKs, 1000 * ABI_VERSION
-        // is added automatically by Flutter. (https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)
-        // You can force using the value of versionCode by specifying the `-P force-version-code-ignoring-abi=true`
-        // flag during build.
+        // From `version:` in pubspec.yaml (name+build number).
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
-    buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+    signingConfigs {
+        if (hasUploadKey) {
+            create("upload") {
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+            }
         }
     }
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.getByName(if (hasUploadKey) "upload" else "debug")
+        }
+    }
+}
+
+// The store bundle must never be signed with the debug key. The check runs at configuration
+// time: a doFirst on bundleRelease would come after the bundle had already been written.
+if (!hasUploadKey && gradle.startParameter.taskNames.any { it.endsWith("bundleRelease") }) {
+    throw GradleException(
+        "android/key.properties mancante: l'App Bundle per Google Play va firmato con " +
+            "la chiave di caricamento (docs/Pubblicazione.md §3.2).",
+    )
 }
 
 kotlin {

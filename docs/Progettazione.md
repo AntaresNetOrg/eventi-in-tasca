@@ -282,7 +282,8 @@ un aggiornamento avvenuto tra le due letture (confermato da Andrea il 06/11/2026
 - Icona e logo: P-06. Icona scelta da Andrea l'08/11/2026 tra 5 bozze: un calendario
   (testata rossa, un giorno evidenziato in verde) che spunta inclinato da una tasca gialla con
   cuciture, su sfondo verde scuro. Sorgente: `docs/icona/icona.svg`, 1024×1024, senza testo
-  né simboli associativi. Le versioni per Android (adattiva) e iOS si generano in F7.
+  né simboli associativi. Le versioni per Android (adattiva, con livello monocromatico) e iOS
+  sono generate in F7 da `tool/genera_icone.sh` (`docs/Pubblicazione.md` §3.1).
 - Colori: verde scuro `#1E4A30`, verde `#2F6B45`, giallo `#F2B33D`, rosso `#E8573C`.
 - Font Titillium Web (licenza OFL, `assets/fonts/OFL.txt`): Regular, Italic, SemiBold, Bold.
 - Interfaccia solo in italiano.
@@ -441,6 +442,11 @@ Rilevati il 06/11/2026 da `pubspec.lock` e dall'API di pub.dev:
 | `cupertino_icons` (da `flutter create`) | 1.0.9 | MIT |
 | `flutter_lints` (solo sviluppo) | 6.0.0 | BSD-3-Clause |
 | `fake_async` (solo sviluppo, F4) | 1.3.3 | Apache-2.0 |
+| `integration_test` (solo sviluppo, F7: screenshot per gli store) | SDK Flutter | BSD-3-Clause |
+
+Con `integration_test` (F7) entrano come dipendenze transitive di sviluppo `process` 5.0.6
+(BSD-3-Clause), `sync_http` 0.3.1 (BSD-3-Clause) e `webdriver` 3.2.0 (Apache-2.0): licenze
+lette nei file `LICENSE` dei pacchetti l'08/11/2026. Non entrano nell'app pubblicata.
 
 Anche le dipendenze transitive in `pubspec.lock` hanno licenza MIT, BSD-3-Clause o Apache-2.0.
 `excel` 4.0.6 richiede `archive ^3.6.1`: è il vincolo che probabilmente trattiene `pdf` a 3.12.0

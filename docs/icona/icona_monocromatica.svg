@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Monochrome layer of the Android adaptive icon (themed icons, Android 13+), derived from
+       icona.svg with the same geometry as icona_primo_piano.svg. Only the alpha channel
+       counts: shapes are separated by transparent gaps instead of colours. -->
+  <defs>
+    <mask id="calendar" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <g transform="rotate(-9 512 420)">
+        <rect x="292" y="150" width="440" height="470" rx="44" fill="#fff"/>
+        <rect x="292" y="280" width="440" height="14" fill="#000"/>
+        <rect x="369" y="100" width="60" height="116" rx="30" fill="#000"/>
+        <rect x="595" y="100" width="60" height="116" rx="30" fill="#000"/>
+        <g fill="#000">
+          <rect x="342" y="312" width="52" height="52" rx="10"/>
+          <rect x="414" y="312" width="52" height="52" rx="10"/>
+          <rect x="486" y="312" width="52" height="52" rx="10"/>
+          <rect x="558" y="312" width="52" height="52" rx="10"/>
+          <rect x="630" y="312" width="52" height="52" rx="10"/>
+          <rect x="342" y="384" width="52" height="52" rx="10"/>
+          <rect x="414" y="384" width="52" height="52" rx="10"/>
+          <rect x="486" y="384" width="52" height="52" rx="10"/>
+          <rect x="558" y="384" width="52" height="52" rx="10"/>
+          <rect x="630" y="384" width="52" height="52" rx="10"/>
+        </g>
+        <!-- highlighted day: a filled square inside its hole -->
+        <rect x="424" y="394" width="32" height="32" rx="6" fill="#fff"/>
+      </g>
+      <path d="M196 470 H828 V736 Q828 860 704 860 H320 Q196 860 196 736 Z" fill="#000" stroke="#000" stroke-width="44" stroke-linejoin="round"/>
+    </mask>
+    <mask id="pocket" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <path d="M196 470 H828 V736 Q828 860 704 860 H320 Q196 860 196 736 Z" fill="#fff"/>
+      <path d="M236 510 H788 V730 Q788 820 698 820 H326 Q236 820 236 730 Z" fill="none" stroke="#000" stroke-width="14" stroke-dasharray="26 18" stroke-linecap="round"/>
+    </mask>
+  </defs>
+  <g transform="translate(512 512) scale(0.70) translate(-512 -477)">
+    <rect width="1024" height="1024" fill="#fff" mask="url(#calendar)"/>
+    <g transform="rotate(-9 512 420)" fill="#fff">
+      <rect x="381" y="112" width="36" height="92" rx="18"/>
+      <rect x="607" y="112" width="36" height="92" rx="18"/>
+    </g>
+    <rect width="1024" height="1024" fill="#fff" mask="url(#pocket)"/>
+  </g>
+</svg>

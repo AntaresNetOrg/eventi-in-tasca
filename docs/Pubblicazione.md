@@ -92,9 +92,13 @@ Sorgente: `docs/icona/icona.svg` (D-13).
 - **iOS:** `AppIcon.appiconset`, partendo dalla 1024×1024 **senza trasparenza** (Apple la
   rifiuta).
 - **Store:** PNG 512×512 per Play; la 1024×1024 per Apple viene presa dal pacchetto.
-- Strumento: `flutter_launcher_icons` solo come dipendenza di sviluppo e solo dopo aver
-  verificato la licenza su pub.dev (regola 11); in alternativa le immagini si generano una
-  volta con uno script in `tool/` e si committano.
+
+**Fatto l'08/11/2026**, senza dipendenze aggiuntive: `tool/genera_icone.sh` (Inkscape e
+ImageMagick) genera tutte le PNG da tre sorgenti SVG in `docs/icona/`: `icona.svg` (icona
+intera: iOS, Android 7, store), `icona_primo_piano.svg` (stesso disegno al 70%, dentro la zona
+sicura dell'icona adattiva) e `icona_monocromatica.svg` (forme separate da spazi vuoti, per le
+icone a tema). Controllato: icone iOS RGB senza alfa, PNG a 8 bit per canale. Produce anche
+`docs/store/icona_512.png` e `docs/store/grafica_1024x500.png`.
 
 ### 3.2 Firma Android (upload key)
 
@@ -115,23 +119,35 @@ con una **chiave di caricamento**.
    keyAlias=upload
    storeFile=/Users/bruand/chiavi/eventi-in-tasca-upload.jks
    ```
-3. 🤖 In `android/app/build.gradle.kts`: leggere `key.properties` e usare quella firma per il
-   build `release`; oggi `release` usa la firma di debug (riga 36). Se il file manca, il build
-   `release` deve fallire con un messaggio chiaro anziché firmare in debug.
+3. **Fatto l'08/11/2026** in `android/app/build.gradle.kts`: se `android/key.properties`
+   esiste, il build `release` usa la chiave di caricamento. Se manca:
+   - `flutter build appbundle` si ferma subito con il messaggio "android/key.properties
+     mancante" e non produce nessun `.aab`;
+   - `flutter build apk --release` e `flutter run --release` funzionano ancora, firmati con
+     la chiave di debug, solo per le prove sul telefono.
+
+   Provato con una chiave temporanea: l'`.aab` risulta firmato da quella chiave
+   (`keytool -printcert -jarfile`).
 
 ### 3.3 Versione
 
 - `pubspec.yaml` → `version: 1.0.0+1` (nome visibile + numero di build). Il numero di build
   deve crescere a **ogni** caricamento, su entrambi gli store.
-- 🤖 `lib/data/bc_client.dart` ha `appVersion = '1.0.0'` scritto a mano per lo User-Agent:
-  va tenuto allineato al `pubspec.yaml`, oppure ricavato in fase di build
-  (`--dart-define`), così non si dimentica.
+- `lib/data/bc_client.dart` ha `appVersion = '1.0.0'` per lo User-Agent. Già controllato da
+  un test (`test/data/bc_client_test.dart`): se cambi la versione nel `pubspec.yaml` e non
+  lì, `flutter test` fallisce.
 
 ### 3.4 iOS
 
-- 🤖 `Info.plist`: aggiungere `ITSAppUsesNonExemptEncryption = false`. L'app usa solo HTTPS
-  del sistema, che è esente (*inferenza* da confermare: App Store Connect lo chiede comunque a
-  ogni build se la chiave manca).
+- 👤 **Crittografia (export compliance).** Al primo caricamento App Store Connect chiede se
+  l'app usa crittografia. L'app usa solo HTTPS, ma Flutter **non** usa le funzioni HTTPS di
+  iOS (`URLSession`): il motore Dart include una propria libreria TLS (BoringSSL). L'esenzione
+  "crittografia del sistema operativo" della [guida Apple](https://developer.apple.com/documentation/security/complying-with-encryption-export-regulations)
+  quindi non si applica alla lettera; la risposta comune per le app che usano HTTPS con
+  algoritmi standard è comunque che rientrano nelle esenzioni. È una dichiarazione legale
+  tua: rispondi al questionario in App Store Connect al primo caricamento e poi, se vuoi
+  evitarlo a ogni build, si aggiunge in `Info.plist` la chiave
+  `ITSAppUsesNonExemptEncryption` con il valore che risulta dal questionario.
 - *Da verificare al primo caricamento:* manifest della privacy (`PrivacyInfo.xcprivacy`). I
   plugin Flutter ne hanno uno proprio; se App Store Connect segnala API "required reason"
   nell'app, se ne aggiunge uno a livello di app.
@@ -140,13 +156,15 @@ con una **chiave di caricamento**.
 
 ### 3.5 Informativa privacy su GitHub Pages (P-05)
 
-1. 👤 Scegli l'indirizzo email di contatto da scrivere nell'informativa (oggi "da definire").
-   Consiglio: una casella di AntaresNet o un alias dedicato, non l'email personale.
-2. 🤖 Completare `docs/privacy.md`: togliere "bozza", aggiungere contatto e data, correggere la
-   frase sui file temporanei secondo la decisione su V-15.
-3. 🤖 Pubblicarla con GitHub Pages dalla cartella `docs/` del ramo `main` (Settings → Pages),
-   più una pagina di supporto (`docs/index.md`: cos'è l'app, nota "non ufficiale", come
-   segnalare un problema tramite le issue).
+1. 👤 Scegli l'indirizzo email di contatto. Consiglio: una casella di AntaresNet o un alias
+   dedicato, non l'email personale.
+2. **Pronti l'08/11/2026:** `docs/privacy.md` (informativa completa) e `docs/index.md`
+   (pagina di supporto), con `docs/_config.yml`. Restano da riempire i segnaposto
+   **[indirizzo email di contatto]** e **[data di pubblicazione]**. La frase sui file
+   temporanei descrive il comportamento attuale (cancellati a ogni avvio e alla creazione di
+   un nuovo file): se V-15 cambia, va aggiornata.
+3. 👤 Attivare GitHub Pages (Settings → Pages → ramo `main`, cartella `/docs`) dopo aver
+   inserito l'email: è una pubblicazione, quindi la fai tu o me la chiedi esplicitamente.
    Indirizzi risultanti (*inferenza*, da controllare dopo l'attivazione):
    `https://antaresnetorg.github.io/eventi-in-tasca/privacy` e
    `https://antaresnetorg.github.io/eventi-in-tasca/`.
@@ -190,15 +208,35 @@ console, che li indicano accanto a ogni campo.
 > App non ufficiale: semplifica la consultazione degli eventi di BuonaCaccia; iscrizioni e
 > informazioni ufficiali restano su buonacaccia.agesci.it.
 
-Bozza di descrizione breve (78 caratteri):
-> Elenca gli eventi di BuonaCaccia e condividili in PDF o Excel. App non ufficiale.
-
 Regole per testi e immagini:
 - Niente logo AGESCI, giglio o trifoglio, niente "ufficiale" (D-00, P-06), salvo diversa
   indicazione nell'autorizzazione di AGESCI.
-- 🤖 Screenshot dall'emulatore con dati reali: controllare che nelle schermate non compaiano
-  nomi di capi campo o recapiti personali (regola 9). Usare ricerche senza "Estrai dettagli"
-  oppure eventi con soli recapiti istituzionali.
+- Negli screenshot non devono comparire nomi di capi campo o recapiti personali (regola 9):
+  si usano ricerche senza "Estrai dettagli".
+
+**Pronti l'08/11/2026 (bozze da rivedere):**
+- Testi: [`docs/store/scheda.md`](store/scheda.md): nome, descrizione breve (76 caratteri),
+  sottotitolo, parole chiave, descrizione (1647), note di versione, note per la revisione Apple.
+- Immagini in `docs/store/`: icona 512×512, grafica 1024×500, e in `screenshot/` 4
+  schermate (ricerca, risultati, evento, informazioni) per ciascun formato:
+
+  | Cartella | Dimensione | Uso |
+  | --- | --- | --- |
+  | `android/` | 1344×2688 | Play, telefono. Rapporto 2:1: Play non accetta un lato più lungo del doppio dell'altro (*da confermare* nel modulo) |
+  | `iphone/` | 1320×2868 | App Store, iPhone 6,9" |
+  | `ipad/` | 2064×2752 | App Store, iPad 13" |
+
+  Dati reali (Piccole Orme, tutte le regioni, 13 eventi, 08/11/2026), senza nomi di persone;
+  la barra di stato non compare perché l'immagine è quella disegnata dall'app.
+- Per rifarli (per esempio dopo un cambio di interfaccia), con emulatore o simulatore acceso:
+  ```bash
+  # su Android, prima: adb shell wm size 1344x2688 (poi: adb shell wm size reset)
+  SCREENSHOT_DIR=/tmp/screenshot/iphone flutter drive \
+    --driver=test_driver/integration_test.dart \
+    --target=integration_test/screenshot_test.dart -d <dispositivo>
+  ```
+  Il test fa una sola ricerca sul sito reale. Le PNG vanno poi salvate senza trasparenza
+  (`magick in.png -background white -alpha remove -alpha off PNG24:out.png`).
 
 ---
 
@@ -323,17 +361,9 @@ o manifest della privacy, vedi §3.4.
 - Accesso: nessun account richiesto (lasciare vuote le credenziali demo).
 - Contatto: nome, telefono, email (visibili solo ad Apple).
 - Allegato: **l'autorizzazione scritta di AGESCI** (PDF), per la linea guida 5.2.2.
-- Testo proposto:
-
-> Eventi in tasca è un'app gratuita e non ufficiale per i capi scout AGESCI. Legge le pagine
-> pubbliche del catalogo eventi di BuonaCaccia (buonacaccia.agesci.it), il portale
-> dell'associazione, e permette di condividere l'elenco degli eventi in PDF o Excel. Non
-> richiede account, non raccoglie dati e non offre iscrizioni: per ogni evento rimanda alla
-> pagina ufficiale. In allegato l'autorizzazione di AGESCI all'uso dei contenuti.
-> Per provarla: scegliere un tipo di evento (es. "Campi di Formazione Metodologica"), toccare
-> "Estrai", poi "Condividi".
-
-  (🤖 Prima dell'invio controllare che il nome del tipo di evento citato esista nel menu.)
+- Testo: in [`docs/store/scheda.md`](store/scheda.md), in inglese perché i revisori Apple
+  leggono l'inglese. Come esempio cita il tipo di evento "Piccole Orme", presente nel menu
+  l'08/11/2026; ricontrollarlo prima dell'invio.
 
 ### 6.6 Rischi noti della revisione Apple
 
@@ -372,7 +402,9 @@ permette di decidere il giorno dopo l'approvazione.
 - [ ] Aprire l'account Google Play Console (personale) e completare la verifica d'identità
 - [ ] Iscriversi all'Apple Developer Program e accettare il Free Apps Agreement
 - [ ] Dichiarare lo stato DSA su entrambi gli store
-- [ ] Scegliere l'email di contatto per informativa e schede
+- [ ] Scegliere l'email di contatto, inserirla con la data in `docs/privacy.md` e
+  `docs/index.md` (segnaposto tra parentesi quadre), poi attivare GitHub Pages
+- [ ] Rispondere al questionario sulla crittografia di App Store Connect (§3.4)
 - [ ] Creare la chiave di caricamento Android e `android/key.properties`
 - [ ] Trovare almeno 12 tester (meglio 15–20) con account Google (V-09)
 - [ ] Rivedere testi delle schede e screenshot
@@ -380,13 +412,17 @@ permette di decidere il giorno dopo l'approvazione.
 
 ## 9. Riepilogo dei lavori nel repository (🤖, su richiesta)
 
-- [ ] Icone Android (adattiva + monocromatica) e iOS da `docs/icona/icona.svg`
-- [ ] Firma `release` da `key.properties` in `build.gradle.kts`
-- [ ] `appVersion` allineata al `pubspec.yaml`
-- [ ] `ITSAppUsesNonExemptEncryption` in `Info.plist`
-- [ ] Informativa completa e pagina di supporto su GitHub Pages
-- [ ] Bozze dei testi delle schede e screenshot senza dati personali
-- [ ] Grafica in evidenza 1024×500 per Play
+- [x] Icone Android (adattiva + monocromatica) e iOS da `docs/icona/icona.svg` (§3.1)
+- [x] Firma `release` da `key.properties` in `build.gradle.kts` (§3.2)
+- [x] `appVersion` allineata al `pubspec.yaml`: c'era già un test (§3.3)
+- [ ] `ITSAppUsesNonExemptEncryption` in `Info.plist`: dopo la tua risposta al questionario
+  sulla crittografia (§3.4)
+- [x] Informativa completa e pagina di supporto (§3.5); mancano email e data, poi
+  l'attivazione di GitHub Pages
+- [x] Bozze dei testi delle schede e screenshot senza dati personali (§4)
+- [x] Grafica in evidenza 1024×500 per Play (§4)
+- [ ] Dopo il primo caricamento: eventuali avvisi di App Store Connect sul manifest della
+  privacy (§3.4)
 
 ## Fonti
 

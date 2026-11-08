@@ -4,6 +4,8 @@ gradle-wrapper.jar
 /gradlew
 /gradlew.bat
 /local.properties
+# Gradle reports written by release builds (e.g. build/reports/problems).
+/build/
 GeneratedPluginRegistrant.java
 .cxx/
 

@@ -14,8 +14,9 @@ Excel da condividere. È un'utilità **non ufficiale**: non sostituisce BuonaCac
 - **Nome:** "Eventi in tasca" (V-07). Il pacchetto Dart resta `eventi_bc`. Repository:
   https://github.com/AntaresNetOrg/eventi-in-tasca. Identificativi in Progettazione §12.
 - **Stato:** F0–F6 completate (fixture, menu di riserva, parser, client HTTP con limiti e
-  annullamento, test sul sito reale, interfaccia, export PDF/Excel e condivisione). Prossima
-  fase: F7 (pubblicazione).
+  annullamento, test sul sito reale, interfaccia, export PDF/Excel e condivisione). F7
+  (pubblicazione) in corso: procedura e stato in `docs/Pubblicazione.md`; i lavori nel
+  repository sono fatti, restano le azioni di Andrea (account, autorizzazione AGESCI, tester).
 
 ## Lingua
 
