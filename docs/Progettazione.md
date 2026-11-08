@@ -30,7 +30,7 @@ Tutte riviste da Andrea l'08/11/2026, salvo dove indicato.
 | P-03 | Interruttore "solo iscrizioni aperte o da aprire" | D-08 | **Confermata**, acceso all'avvio |
 | P-04 | Voci di gruppo del menu tipi (es. "L/C", "CFM") selezionabili | D-08 | **Confermata** |
 | P-05 | Informativa privacy pubblicata su GitHub Pages del repository | D-12 | **Confermata** |
-| P-06 | Nessun logo AGESCI nell'app e nei file finché l'autorizzazione non ne copre l'uso; icona originale neutra | D-13 | **Confermata**; Andrea chiede alternative di icona da valutare |
+| P-06 | Nessun logo AGESCI nell'app e nei file finché l'autorizzazione non ne copre l'uso; icona originale neutra | D-13 | **Confermata**; icona scelta l'08/11/2026 (D-13) |
 | P-07 | Ordinamento per data di partenza, poi titolo | D-15 | **Confermata** |
 | P-08 | Riverpod per lo stato dell'app | §6 | **Confermata** |
 | P-09 | PDF A4 orizzontale; tabella o scheda per evento da decidere con un mockup | §5, V-10 | **Confermata**: A4 orizzontale, mockup all'inizio di F6 |
@@ -272,7 +272,11 @@ un aggiornamento avvenuto tra le due letture (confermato da Andrea il 06/11/2026
   (bozza in `docs/privacy.md`, P-05).
 
 ### D-13 — Grafica
-- Icona e logo: P-06.
+- Icona e logo: P-06. Icona scelta da Andrea l'08/11/2026 tra 5 bozze: un calendario
+  (testata rossa, un giorno evidenziato in verde) che spunta inclinato da una tasca gialla con
+  cuciture, su sfondo verde scuro. Sorgente: `docs/icona/icona.svg`, 1024×1024, senza testo
+  né simboli associativi. Le versioni per Android (adattiva) e iOS si generano in F7.
+- Colori: verde scuro `#1E4A30`, verde `#2F6B45`, giallo `#F2B33D`, rosso `#E8573C`.
 - Font Titillium Web (licenza OFL, `assets/fonts/OFL.txt`): Regular, Italic, SemiBold, Bold.
 - Interfaccia solo in italiano.
 

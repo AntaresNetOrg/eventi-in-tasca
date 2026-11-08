@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- App icon (D-13), chosen by Andrea on 08/11/2026: a calendar leans out of a
+       yellow pocket, on dark green. Source for the store and launcher icons (F7).
+       The artwork stays within the central ~66% safe zone of Android adaptive icons. -->
+  <rect width="1024" height="1024" fill="#1E4A30"/>
+  <g transform="rotate(-9 512 420)">
+    <rect x="292" y="150" width="440" height="470" rx="44" fill="#FFFFFF"/>
+    <rect x="292" y="150" width="440" height="130" rx="44" fill="#E8573C"/>
+    <rect x="292" y="236" width="440" height="44" fill="#E8573C"/>
+    <rect x="381" y="112" width="36" height="92" rx="18" fill="#263238"/>
+    <rect x="607" y="112" width="36" height="92" rx="18" fill="#263238"/>
+    <g fill="#D9DEE0">
+      <rect x="342" y="312" width="52" height="52" rx="10"/>
+      <rect x="414" y="312" width="52" height="52" rx="10"/>
+      <rect x="486" y="312" width="52" height="52" rx="10"/>
+      <rect x="558" y="312" width="52" height="52" rx="10"/>
+      <rect x="630" y="312" width="52" height="52" rx="10"/>
+      <rect x="342" y="384" width="52" height="52" rx="10"/>
+      <rect x="486" y="384" width="52" height="52" rx="10"/>
+      <rect x="558" y="384" width="52" height="52" rx="10"/>
+      <rect x="630" y="384" width="52" height="52" rx="10"/>
+    </g>
+    <rect x="414" y="384" width="52" height="52" rx="10" fill="#2F6B45"/>
+  </g>
+  <!-- pocket -->
+  <path d="M196 470 H828 V736 Q828 860 704 860 H320 Q196 860 196 736 Z" fill="#F2B33D"/>
+  <path d="M236 510 H788 V730 Q788 820 698 820 H326 Q236 820 236 730 Z" fill="none" stroke="#1E4A30" stroke-width="10" stroke-dasharray="26 18" stroke-linecap="round"/>
+</svg>
