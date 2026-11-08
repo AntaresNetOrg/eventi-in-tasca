@@ -16,6 +16,10 @@ relatori o riportare IBAN. Le pagine con questi dati non si pubblicano (nella pr
 Prima di committare una fixture, controlla a mano che non contenga nomi o recapiti reali.
 `test/fixtures_privacy_test.dart` è un controllo in più, non sostituisce quello a mano.
 Ogni fixture va annotata qui con la data di cattura e il caso che copre.
+
+Questa cartella è la fonte delle fixture anche per BCEventScraper (Python) e BCEventScraper-rs
+(Rust), che le copiano da un commit preciso di questo repository con
+`scripts/sync-fixtures.sh`. Dopo una modifica qui, aggiornale là e rilancia i loro test.
 I file sono esclusi dalla normalizzazione di git (`.gitattributes`): i caratteri CR sono dati.
 
 | File | Catturata il | Caso coperto |

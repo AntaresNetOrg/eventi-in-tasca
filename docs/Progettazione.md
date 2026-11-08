@@ -35,7 +35,7 @@ Tutte riviste da Andrea l'08/11/2026, salvo dove indicato.
 | P-08 | Riverpod per lo stato dell'app | §6 | **Confermata** |
 | P-09 | PDF A4 orizzontale; tabella o scheda per evento da decidere con un mockup | §5, V-10 | **Confermata**: A4 orizzontale, mockup all'inizio di F6 |
 | P-10 | Organizzazione degli identificativi | §12 | **Superata**: `org.antaresnet` (08/11/2026, §12) |
-| P-11 | Fixture HTML anonimizzate come contratto comune futuro con BCEventScraper-rs | D-02 | **Confermata** l'08/11/2026: Andrea mantiene BCEventScraper-rs e BCEventScraper (§1.1). Eventi in tasca resta la fonte delle fixture, che i due progetti copiano da un commit preciso; lavoro sui due repository da pianificare |
+| P-11 | Fixture HTML anonimizzate come contratto comune futuro con BCEventScraper-rs | D-02 | **Confermata** l'08/11/2026: Andrea mantiene BCEventScraper-rs e BCEventScraper (§1.1). Eventi in tasca resta la fonte delle fixture, che i due progetti copiano da un commit preciso (`scripts/sync-fixtures.sh`, `tests/fixtures/SOURCE`). **Realizzata l'08/11/2026** sui branch `test/shared-fixtures`: parsing separato dalla rete e test in entrambi (Rust 10 nuovi test; Python 8 con Chrome headless). I test hanno trovato un difetto del Rust: un record spurio per evento dalla tabella annidata nella colonna Tipo, corretto |
 | P-12 | Struttura `lib/` in data / parsing / domain / export / ui | §7 | Realizzata, non contestata |
 | P-13 | Avviso iniziale "app non ufficiale" mostrato a ogni avvio | D-00 | **Confermata** |
 
