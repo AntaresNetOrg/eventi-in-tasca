@@ -86,7 +86,8 @@ void main() {
       await answering('x').paginaEvento(26719);
 
       expect(requests.single.headers['User-Agent'], userAgent);
-      expect(userAgent, startsWith('eventi_bc/'));
+      expect(userAgent, startsWith('eventi-in-tasca/'));
+      expect(userAgent, contains(repositoryUrl));
       expect(userAgent, isNot(contains('@')));
     });
 

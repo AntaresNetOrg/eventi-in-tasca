@@ -4,10 +4,12 @@ App per telefoni e tablet (Android e iOS, pubblicata sugli store) che estrae dal
 BuonaCaccia l'elenco degli eventi di un tipo, eventualmente filtrato per regione, e lo esporta in
 PDF e/o Excel da condividere con genitori e ragazzi.
 
-- **Nome:** da decidere (V-07). Nome provvisorio del pacchetto: `eventi_bc`.
-- **Stato:** analisi chiusa salvo le proposte del §0 e le verifiche del §9; fasi F0–F4
-  completate entro l'08/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F5.
-- **Repository GitHub:** da decidere insieme al nome (V-07). Licenza MIT, © Andrea Bruno.
+- **Nome:** "Eventi in tasca" (V-07, deciso da Andrea l'08/11/2026). Il pacchetto Dart resta
+  `eventi_bc`: è interno e non compare agli utenti.
+- **Stato:** analisi chiusa salvo le verifiche aperte del §9; fasi F0–F4 completate entro
+  l'08/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F5.
+- **Repository GitHub:** https://github.com/AntaresNetOrg/eventi-in-tasca, pubblico.
+  Licenza MIT, © Andrea Bruno.
 - **Pubblicazione:** account sviluppatore personale di Andrea su App Store e Google Play.
 - **Sviluppo:** Claude Code in Android Studio (D-16).
 
@@ -17,25 +19,25 @@ verificare prima di usarle.
 
 ---
 
-## 0. Proposte da approvare
+## 0. Proposte
 
-Andrea le rivede qui. Quelle non contestate valgono come approvate.
+Tutte riviste da Andrea l'08/11/2026, salvo dove indicato.
 
-| N. | Proposta | Dove | Alternativa |
+| N. | Proposta | Dove | Esito |
 | --- | --- | --- | --- |
-| P-01 | Pausa di 300 ms tra le richieste di dettaglio, massimo 2 in parallelo | D-04 | Pausa più lunga (più lento, più rispettoso) |
-| P-02 | Test settimanale nel CI contro il sito reale, che apre una issue se i parser falliscono | D-05 | Solo test manuali |
-| P-03 | Interruttore "solo iscrizioni aperte o da aprire" (se il sito lo permette via GET, V-02) | D-08 | Nessun filtro |
-| P-04 | Voci di gruppo del menu tipi (es. "L/C", "Formazione Capi") selezionabili, se il sito le accetta (V-03) | D-08 | Solo voci foglia |
-| P-05 | Informativa privacy pubblicata su GitHub Pages del repository | D-12 | Pagina su un tuo dominio |
-| P-06 | Nessun logo AGESCI nell'app e nei file finché l'autorizzazione non ne copre l'uso; icona originale neutra | D-13 | Logo dopo l'autorizzazione |
-| P-07 | Ordinamento per data di partenza, poi titolo | D-15 | Ordine del sito ("per tipologia") |
-| P-08 | Riverpod per lo stato dell'app | §6 | Provider, Bloc, solo `setState` |
-| P-09 | PDF A4 orizzontale; tabella o scheda per evento da decidere con un mockup | §5, V-10 | — |
-| P-10 | **Confermata (06/11/2026).** Organizzazione `it.bruand81` per gli identificativi dell'app (es. `it.bruand81.eventi_bc` su Android) | §12 | Altro dominio inverso |
-| P-11 | Fixture HTML anonimizzate come contratto comune futuro con BCEventScraper-rs | D-02 | — |
-| P-12 | Struttura `lib/` in data / parsing / domain / export / ui | §7 | — |
-| P-13 | Avviso iniziale "app non ufficiale" mostrato a ogni avvio (non si può ricordare la chiusura: niente persistenza) | D-00 | Solo schermata Informazioni |
+| P-01 | Pausa di 300 ms tra le richieste, massimo 2 in parallelo | D-04 | Realizzata in F4, non contestata |
+| P-02 | Test settimanale nel CI contro il sito reale, che apre una issue se i parser falliscono | D-05 | Realizzata in F4, non contestata |
+| P-03 | Interruttore "solo iscrizioni aperte o da aprire" | D-08 | **Confermata**, acceso all'avvio |
+| P-04 | Voci di gruppo del menu tipi (es. "L/C", "CFM") selezionabili | D-08 | **Confermata** |
+| P-05 | Informativa privacy pubblicata su GitHub Pages del repository | D-12 | **Confermata** |
+| P-06 | Nessun logo AGESCI nell'app e nei file finché l'autorizzazione non ne copre l'uso; icona originale neutra | D-13 | **Confermata**; Andrea chiede alternative di icona da valutare |
+| P-07 | Ordinamento per data di partenza, poi titolo | D-15 | **Confermata** |
+| P-08 | Riverpod per lo stato dell'app | §6 | **Confermata** |
+| P-09 | PDF A4 orizzontale; tabella o scheda per evento da decidere con un mockup | §5, V-10 | **Confermata**: A4 orizzontale, mockup all'inizio di F6 |
+| P-10 | Organizzazione degli identificativi | §12 | **Superata**: `org.antaresnet` (08/11/2026, §12) |
+| P-11 | Fixture HTML anonimizzate come contratto comune futuro con BCEventScraper-rs | D-02 | Non ancora discussa |
+| P-12 | Struttura `lib/` in data / parsing / domain / export / ui | §7 | Realizzata, non contestata |
+| P-13 | Avviso iniziale "app non ufficiale" mostrato a ogni avvio | D-00 | **Confermata** |
 
 ---
 
@@ -202,8 +204,8 @@ sul dispositivo) e avviso che potrebbe non essere aggiornato.
   30 s. I redirect non vengono mai seguiti: un `302` verso `Events.aspx` su `Event.aspx` vuol
   dire evento non più disponibile, qualunque altro redirect è un errore. Annulla scarta le
   richieste in coda e interrompe quelle in corso.
-- User-Agent attuale: `eventi_bc/1.0.0 (app non ufficiale per BuonaCaccia)`. L'indirizzo del
-  repository si aggiunge quando sarà deciso (V-07).
+- User-Agent: `eventi-in-tasca/1.0.0 (app non ufficiale per BuonaCaccia;
+  +https://github.com/AntaresNetOrg/eventi-in-tasca)`.
 
 ### D-05 — Parser
 - Primo criterio: gli **id ASP.NET** (`MainContent_EventsGridView`,
@@ -338,6 +340,14 @@ un'anomalia che riporta il testo grezzo, e l'evento resta in elenco (D-05).
 
 Tablet: ricerca e risultati affiancati.
 
+Scelte confermate da Andrea l'08/11/2026:
+- Formati: all'apertura è selezionato solo il PDF; ne serve almeno uno.
+- "Estrai dettagli": oltre 50 eventi si chiede conferma, mostrando il numero di pagine e il
+  tempo stimato (circa 0,3-0,5 s per evento, *inferenza* da misurare).
+- Anomalie: un riquadro in cima ai risultati con il numero di eventi interessati e un'icona
+  sui singoli eventi; i messaggi si leggono aprendo l'evento.
+- Tablet: ricerca e risultati affiancati già in F5.
+
 ---
 
 ## 5. File esportati
@@ -441,12 +451,12 @@ eventi_bc/
 | V-03 | **Risolta in F1:** le voci di gruppo funzionano come `CID` ai livelli provati. `1000000` L/C: 15 righe; `4000200` CFM: 27 righe di soli CFM L/C, E/G, R/S; `4010000` Moduli Formativi: 65 righe di MF e formatori | P-04 realizzabile |
 | V-04 | **Risolta in F1, entro il volume osservato:** nessun paginatore con 298 righe (`All=1`). Oltre questo numero non è verificabile | Nessuna paginazione; il test settimanale può controllarlo |
 | V-05 | **Risolta in F1:** sì, è HTML. Nel campione: `<p>`, `<br />`, `<strong>`, `<a href>`, entità (`&agrave;`, `&nbsp;`). Può citare persone reali e IBAN | Il parser deve convertirlo in testo conservando gli URL; attenzione ai dati personali nelle fixture |
-| V-06 | Autorizzazione scritta AGESCI: a chi chiederla, e se copre scraping, nome e logo | Nessun logo (P-06) |
-| V-07 | Nome dell'app e posizione del repository GitHub | Nome provvisorio `eventi_bc` |
+| V-06 | Autorizzazione scritta AGESCI: a chi chiederla, e se copre scraping, nome e logo. Bozza della richiesta preparata l'08/11/2026; destinatario da scegliere (Andrea) | Nessun logo (P-06) |
+| V-07 | **Risolta l'08/11/2026 (Andrea):** nome "Eventi in tasca", repository pubblico `AntaresNetOrg/eventi-in-tasca` | — |
 | V-08 | Costi e requisiti attuali di Apple Developer Program e Google Play Console; obbligo di informativa privacy | Da verificare alla pubblicazione |
 | V-09 | 12 tester per il test chiuso su Play | — |
 | V-10 | Layout del PDF (tabella o schede) leggibile su telefono | Mockup prima di F6 |
-| V-11 | Condizioni d'uso / `robots.txt` di BuonaCaccia | Da leggere prima di V-06 |
+| V-11 | **Letta l'08/11/2026** (una GET ciascuna, autorizzata da Andrea): `robots.txt` vieta solo `/admin/` e `/utenti/` e consente il resto. `Privacy.aspx` è l'informativa del sito (titolare AGESCI; log con IP conservati 12 mesi). `Instructions.aspx` contiene istruzioni per le iscrizioni. In nessuna delle tre ci sono condizioni d'uso sul riuso dei dati o sull'accesso automatico: nessun divieto, ma nemmeno un permesso. `About.aspx` non è stata letta | L'autorizzazione AGESCI (V-06) resta necessaria |
 | V-12 | **Risolta in F0:** il `_` viene convertito solo per iOS (`eventi_bc` → `eventiBc`); valori in §12 | Fissarli prima del primo caricamento sugli store |
 | V-13 | **Risolta il 06/11/2026 (Andrea):** l'etichetta resta "Chiuse" anche per gli eventi non ancora aperti, perché nessuno può iscriversi (D-09) | — |
 | V-14 | **Risolta il 06/11/2026 (Andrea):** con "Estrai dettagli" si estraggono date e località dei singoli appuntamenti (D-11, §3) | — |
@@ -500,8 +510,9 @@ Identificativi (P-10, V-12):
 
 | Piattaforma | Identificativo | Stato |
 | --- | --- | --- |
-| Android `applicationId` | `it.bruand81.eventi_bc` | Provvisorio; P-10 confermata da Andrea il 06/11/2026 |
-| iOS `PRODUCT_BUNDLE_IDENTIFIER` | `it.bruand81.eventiBc` | Provvisorio; P-10 confermata da Andrea il 06/11/2026 |
+| Android `applicationId` e `namespace` | `org.antaresnet.eventi_in_tasca` | Deciso da Andrea l'08/11/2026 |
+| iOS `PRODUCT_BUNDLE_IDENTIFIER` | `org.antaresnet.eventi-in-tasca` | Deciso da Andrea l'08/11/2026: iOS non ammette `_` |
+| Nome visualizzato | "Eventi in tasca" | Android `android:label`, iOS `CFBundleDisplayName` e `CFBundleName` |
 
 Gli identificativi non si possono cambiare dopo il primo caricamento sugli store: se il nome
 definitivo (V-07) arriva dopo F0, vanno aggiornati prima di F7.

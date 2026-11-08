@@ -1,12 +1,10 @@
-# eventi_bc (nome provvisorio)
+# Eventi in tasca
 
+[![CI](https://github.com/AntaresNetOrg/eventi-in-tasca/actions/workflows/ci.yml/badge.svg)](https://github.com/AntaresNetOrg/eventi-in-tasca/actions/workflows/ci.yml)
 [![Licenza: MIT](https://img.shields.io/badge/licenza-MIT-blue.svg)](LICENSE)
 [![Flutter](https://img.shields.io/badge/Flutter-stable-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Piattaforme](https://img.shields.io/badge/piattaforme-Android%20%7C%20iOS-lightgrey.svg)](#)
 [![App non ufficiale](https://img.shields.io/badge/app-non%20ufficiale%20AGESCI-orange.svg)](#app-non-ufficiale)
-<!-- Badge CI da aggiungere quando sarà deciso il repository (V-07):
-[![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)](https://github.com/<owner>/<repo>/actions/workflows/ci.yml)
--->
 
 App per telefoni e tablet che estrae dal portale
 [BuonaCaccia](https://buonacaccia.agesci.it/Events.aspx) l'elenco degli eventi di un

@@ -4,12 +4,12 @@ void main() {
   runApp(const EventiBcApp());
 }
 
-/// Minimal app shell (phase F0). The title is provisional until the final
-/// name is chosen (V-07).
+/// Minimal app shell (phase F0); the screens come in F5.
 class EventiBcApp extends StatelessWidget {
   const EventiBcApp({super.key});
 
-  static const String titoloProvvisorio = 'eventi_bc';
+  /// Name of the app (V-07).
+  static const String titoloProvvisorio = 'Eventi in tasca';
 
   @override
   Widget build(BuildContext context) {

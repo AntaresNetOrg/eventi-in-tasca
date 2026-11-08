@@ -2,7 +2,7 @@
     <!-- Needed in release builds to read the public pages of BuonaCaccia. -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="eventi_bc"
+        android:label="Eventi in tasca"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

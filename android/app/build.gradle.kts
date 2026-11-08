@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "it.bruand81.eventi_bc"
+    namespace = "org.antaresnet.eventi_in_tasca"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "it.bruand81.eventi_bc"
+        applicationId = "org.antaresnet.eventi_in_tasca"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

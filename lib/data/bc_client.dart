@@ -13,9 +13,13 @@ const bcHost = 'buonacaccia.agesci.it';
 /// Version sent in the User-Agent; a test keeps it equal to pubspec.yaml.
 const appVersion = '1.0.0';
 
-/// Identifies the app without any email address (D-04).
-// TODO(V-07): add the repository URL once the repository is decided.
-const userAgent = 'eventi_bc/$appVersion (app non ufficiale per BuonaCaccia)';
+/// Public repository of the app, also linked from the User-Agent.
+const repositoryUrl = 'https://github.com/AntaresNetOrg/eventi-in-tasca';
+
+/// Identifies the app and its repository, without any email address (D-04).
+const userAgent =
+    'eventi-in-tasca/$appVersion '
+    '(app non ufficiale per BuonaCaccia; +$repositoryUrl)';
 
 const _eventsPath = '/Events.aspx';
 const _eventPath = '/Event.aspx';

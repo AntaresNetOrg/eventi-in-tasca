@@ -11,8 +11,8 @@ Excel da condividere. È un'utilità **non ufficiale**: non sostituisce BuonaCac
 - **Specifica:** `docs/Progettazione.md`. Contiene decisioni (D-nn), verifiche aperte
   (V-nn), *proposte* (scelte non ancora confermate da Andrea) e *inferenze* (da
   verificare). Prima di implementare una funzione, leggi le decisioni che la riguardano.
-- **Nome provvisorio:** `eventi_bc` (pacchetto Dart). Il nome definitivo è V-07: non
-  inventarne uno.
+- **Nome:** "Eventi in tasca" (V-07). Il pacchetto Dart resta `eventi_bc`. Repository:
+  https://github.com/AntaresNetOrg/eventi-in-tasca. Identificativi in Progettazione §12.
 - **Stato:** F0–F4 completate (app minima, fixture, menu di riserva, parser, client HTTP con
   limiti e annullamento, test sul sito reale). Prossima fase: F5.
 
@@ -65,8 +65,8 @@ Excel da condividere. È un'utilità **non ufficiale**: non sostituisce BuonaCac
    ```bash
    flutter create --org it.bruand81 --project-name eventi_bc --platforms android,ios .
    ```
-   `--org it.bruand81` è la *proposta* P-10 (Progettazione §0): se Andrea non l'ha
-   confermata, chiedigli prima di eseguire.
+   Fatto in F0 con `it.bruand81` (P-10); l'08/11/2026 gli identificativi sono passati a
+   `org.antaresnet` (Progettazione §12).
 4. `git status` e `git diff`: `flutter create` non dovrebbe sovrascrivere i file
    esistenti (*inferenza*). Se ha toccato `README.md`, `.gitignore`, `LICENSE`,
    `CLAUDE.md` o `analysis_options.yaml`, ripristinali con `git checkout -- <file>`.

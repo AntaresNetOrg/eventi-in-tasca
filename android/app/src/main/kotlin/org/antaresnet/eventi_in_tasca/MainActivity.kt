@@ -1,4 +1,4 @@
-package it.bruand81.eventi_bc
+package org.antaresnet.eventi_in_tasca
 
 import io.flutter.embedding.android.FlutterActivity
 
