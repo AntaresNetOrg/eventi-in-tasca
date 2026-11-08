@@ -478,7 +478,7 @@ eventi_bc/
 | F4 | Client HTTP, scheduler rispettoso, annullamento; test "live" e workflow settimanale |
 | F5 | Interfaccia |
 | F6 | Export PDF ed Excel, file temporanei, condivisione |
-| F7 | Store: icona, schermate, informativa, test chiuso Play, TestFlight, note per la revisione |
+| F7 | Store: icona, schermate, informativa, test chiuso Play, TestFlight, note per la revisione (istruzioni in `docs/Pubblicazione.md`) |
 
 ---
 
@@ -493,7 +493,7 @@ eventi_bc/
 | V-05 | **Risolta in F1:** sì, è HTML. Nel campione: `<p>`, `<br />`, `<strong>`, `<a href>`, entità (`&agrave;`, `&nbsp;`). Può citare persone reali e IBAN | Il parser deve convertirlo in testo conservando gli URL; attenzione ai dati personali nelle fixture |
 | V-06 | Autorizzazione scritta AGESCI: a chi chiederla, e se copre scraping, nome e logo. Bozza della richiesta preparata l'08/11/2026; destinatario da scegliere (Andrea) | Nessun logo (P-06) |
 | V-07 | **Risolta l'08/11/2026 (Andrea):** nome "Eventi in tasca", repository pubblico `AntaresNetOrg/eventi-in-tasca` | — |
-| V-08 | Costi e requisiti attuali di Apple Developer Program e Google Play Console; obbligo di informativa privacy | Da verificare alla pubblicazione |
+| V-08 | Costi e requisiti attuali di Apple Developer Program e Google Play Console; obbligo di informativa privacy. **In parte verificata l'08/11/2026:** API 36 per Play, Xcode 26 per Apple, 12 tester per 14 giorni, dichiarazione DSA; importi da confermare (`docs/Pubblicazione.md` §1) | Procedura in `docs/Pubblicazione.md` |
 | V-09 | 12 tester per il test chiuso su Play | — |
 | V-10 | **Risolta l'08/11/2026 (Andrea):** tabella senza dettagli, schede con i dettagli (§5) | — |
 | V-11 | **Letta l'08/11/2026** (una GET ciascuna, autorizzata da Andrea): `robots.txt` vieta solo `/admin/` e `/utenti/` e consente il resto. `Privacy.aspx` è l'informativa del sito (titolare AGESCI; log con IP conservati 12 mesi). `Instructions.aspx` contiene istruzioni per le iscrizioni. In nessuna delle tre ci sono condizioni d'uso sul riuso dei dati o sull'accesso automatico: nessun divieto, ma nemmeno un permesso. `About.aspx` non è stata letta | L'autorizzazione AGESCI (V-06) resta necessaria |
