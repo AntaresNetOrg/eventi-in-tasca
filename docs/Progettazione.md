@@ -35,7 +35,7 @@ Tutte riviste da Andrea l'08/11/2026, salvo dove indicato.
 | P-08 | Riverpod per lo stato dell'app | §6 | **Confermata** |
 | P-09 | PDF A4 orizzontale; tabella o scheda per evento da decidere con un mockup | §5, V-10 | **Confermata**: A4 orizzontale, mockup all'inizio di F6 |
 | P-10 | Organizzazione degli identificativi | §12 | **Superata**: `org.antaresnet` (08/11/2026, §12) |
-| P-11 | Fixture HTML anonimizzate come contratto comune futuro con BCEventScraper-rs | D-02 | Non ancora discussa |
+| P-11 | Fixture HTML anonimizzate come contratto comune futuro con BCEventScraper-rs | D-02 | **Confermata** l'08/11/2026: Andrea mantiene BCEventScraper-rs e BCEventScraper (§1.1). Eventi in tasca resta la fonte delle fixture, che i due progetti copiano da un commit preciso; lavoro sui due repository da pianificare |
 | P-12 | Struttura `lib/` in data / parsing / domain / export / ui | §7 | Realizzata, non contestata |
 | P-13 | Avviso iniziale "app non ufficiale" mostrato a ogni avvio | D-00 | **Confermata** |
 
@@ -58,12 +58,15 @@ L'app **non sostituisce BuonaCaccia** e non vi accede in modo riservato (D-00, D
 
 | Progetto | Rapporto con l'app |
 | --- | --- |
-| `AGESCI-Campania/BCEventScraper` (Python, Selenium) | Origine storica. Non riusato. |
-| `AGESCI-Campania/BCEventScraper-rs` (Rust) | Fonte degli id ASP.NET verificati per lista e dettaglio (`bc.rs`, `reports.rs`). Il codice non si riusa (D-02); se ne porta la conoscenza. |
+| `AGESCI-Campania/BCEventScraper` (Python, Selenium) | Origine storica, ancora in uso. Gestito da Andrea; privato, senza test. Il codice non si riusa. |
+| `AGESCI-Campania/BCEventScraper-rs` (Rust) | Porting del Python, gestito da Andrea; privato, 5 test unitari, nessuno sui parser. Fonte degli id ASP.NET di partenza (`bc.rs`, `reports.rs`). Il codice non si riusa (D-02); se ne porta la conoscenza. |
 
-Nota per BCEventScraper-rs, rilevata durante l'analisi: `bc.rs` usa `BASE = "https://buonacaccia.net"`.
-Il portale avvisa che il vecchio indirizzo sarà dismesso e che il reindirizzamento automatico
-resta attivo fino al 28/02/2027. Va portato su `buonacaccia.agesci.it`.
+Entrambi usavano `buonacaccia.net` per l'elenco degli eventi. L'08/11/2026 sono stati preparati
+i branch `fix/host-buonacaccia-agesci` per passare a `buonacaccia.agesci.it`, con pull request
+da approvare da Andrea.
+
+Il portale avvisa che il vecchio indirizzo `buonacaccia.net` sarà dismesso e che il
+reindirizzamento automatico resta attivo fino al 28/02/2027.
 
 ### 1.2 Struttura del sito (verificata sull'HTML grezzo il 06/11/2026, F1)
 
