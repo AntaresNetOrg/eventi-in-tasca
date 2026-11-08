@@ -5,8 +5,8 @@ BuonaCaccia l'elenco degli eventi di un tipo, eventualmente filtrato per regione
 PDF e/o Excel da condividere con genitori e ragazzi.
 
 - **Nome:** da decidere (V-07). Nome provvisorio del pacchetto: `eventi_bc`.
-- **Stato:** analisi chiusa salvo le proposte del §0 e le verifiche del §9; fasi F0, F1 e F2
-  completate il 06/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F3.
+- **Stato:** analisi chiusa salvo le proposte del §0 e le verifiche del §9; fasi F0, F1, F2 e F3
+  completate entro l'08/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F4.
 - **Repository GitHub:** da decidere insieme al nome (V-07). Licenza MIT, © Andrea Bruno.
 - **Pubblicazione:** account sviluppatore personale di Andrea su App Store e Google Play.
 - **Sviluppo:** Claude Code in Android Studio (D-16).
@@ -134,6 +134,17 @@ Id con prefisso `MainContent_EventFormView_` (pagine che li contengono, su 35):
 
 Nella tabella degli appuntamenti l'id `gvAppointments_Type_N` compare due volte per riga (date
 e località), e la località può essere vuota.
+
+Altre osservazioni (F3, 06-08/11/2026):
+- Su 9 dettagli confrontati con l'elenco, titolo (senza il prefisso `[Regione] `), regione,
+  date, quota, località, iscritti e posti coincidono; `lbSeats` è il massimo dell'elenco
+  (`illimitati` = `(*)`), `nessuna quota d'iscrizione` corrisponde a `-`.
+- La segreteria è HTML non valido (`<p>` dentro `<span>` dentro `<p>`): un parser HTML5
+  sposta i paragrafi fuori dallo `<span>`, che resta vuoto. Il parser ritaglia il frammento
+  dal testo della pagina.
+- `Event.aspx?e=<id inesistente>` risponde `302` verso `Events.aspx`, senza pagina d'errore:
+  il client (F4) deve trattare il redirect come "evento non più disponibile". Il parser del
+  dettaglio rifiuta comunque una pagina senza titolo dell'evento.
 
 Il testo "Apriranno il …" resta tale anche a iscrizioni già aperte (26533): l'etichetta non indica lo stato.
 
