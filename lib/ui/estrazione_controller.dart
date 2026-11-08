@@ -4,47 +4,16 @@ import '../data/annullamento.dart';
 import '../data/bc_exceptions.dart';
 import '../domain/evento.dart';
 import '../domain/ordinamento.dart';
+import '../domain/risultato.dart';
 import '../parsing/bc_page_format_exception.dart';
 import 'filtri.dart';
 import 'providers.dart';
 
+export '../domain/risultato.dart';
+
 /// Above this number of events, "Estrai dettagli" asks for confirmation first
 /// (decided by Andrea on 08/11/2026).
 const sogliaConfermaDettagli = 50;
-
-/// What was searched, for the results header and the exported files.
-class Ricerca {
-  const Ricerca({
-    required this.tipo,
-    required this.regione,
-    required this.soloAperte,
-    required this.dettagli,
-  });
-
-  final String tipo;
-
-  /// Null when searching all regions.
-  final String? regione;
-  final bool soloAperte;
-  final bool dettagli;
-}
-
-class Risultato {
-  const Risultato({
-    required this.ricerca,
-    required this.eventi,
-    required this.estrattoIl,
-  });
-
-  final Ricerca ricerca;
-
-  /// Sorted by departure date, then title (P-07).
-  final List<Evento> eventi;
-  final DateTime estrattoIl;
-
-  int get eventiConAnomalie =>
-      eventi.where((e) => e.anomalie.isNotEmpty).length;
-}
 
 sealed class StatoEstrazione {
   const StatoEstrazione();
@@ -115,6 +84,8 @@ class EstrazioneController extends Notifier<StatoEstrazione> {
       regione: filtri.rid == null ? null : regione,
       soloAperte: filtri.soloAperte,
       dettagli: filtri.dettagli,
+      pdf: filtri.pdf,
+      excel: filtri.excel,
     );
     state = const CercaEventi();
 
@@ -191,12 +162,7 @@ class EstrazioneController extends Notifier<StatoEstrazione> {
     _annullamento = null;
     state = Completata(
       Risultato(
-        ricerca: Ricerca(
-          tipo: ricerca.tipo,
-          regione: ricerca.regione,
-          soloAperte: ricerca.soloAperte,
-          dettagli: dettagli ?? ricerca.dettagli,
-        ),
+        ricerca: ricerca.copyWith(dettagli: dettagli),
         eventi: ordinaEventi(eventi),
         estrattoIl: DateTime.now(),
       ),

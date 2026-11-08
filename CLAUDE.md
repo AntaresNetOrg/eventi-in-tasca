@@ -13,9 +13,9 @@ Excel da condividere. È un'utilità **non ufficiale**: non sostituisce BuonaCac
   verificare). Prima di implementare una funzione, leggi le decisioni che la riguardano.
 - **Nome:** "Eventi in tasca" (V-07). Il pacchetto Dart resta `eventi_bc`. Repository:
   https://github.com/AntaresNetOrg/eventi-in-tasca. Identificativi in Progettazione §12.
-- **Stato:** F0–F5 completate (fixture, menu di riserva, parser, client HTTP con limiti e
-  annullamento, test sul sito reale, interfaccia). Prossima fase: F6 ("Condividi" oggi mostra
-  solo un avviso).
+- **Stato:** F0–F6 completate (fixture, menu di riserva, parser, client HTTP con limiti e
+  annullamento, test sul sito reale, interfaccia, export PDF/Excel e condivisione). Prossima
+  fase: F7 (pubblicazione).
 
 ## Lingua
 

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/evento.dart';
 import '../domain/formati.dart';
 import 'app.dart';
+import 'condivisione.dart';
 import 'estrazione_controller.dart';
 import 'evento_sheet.dart';
 
@@ -109,18 +110,7 @@ class _Risultati extends StatelessWidget {
     return Scaffold(
       floatingActionButton: eventi.isEmpty
           ? null
-          : FloatingActionButton.extended(
-              icon: const Icon(Icons.share),
-              label: const Text('Condividi'),
-              // The PDF and Excel export arrives in phase F6.
-              onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'L\'esportazione in PDF ed Excel non è ancora disponibile.',
-                  ),
-                ),
-              ),
-            ),
+          : PulsanteCondividi(risultato: risultato),
       body: ListView.builder(
         padding: const EdgeInsets.only(bottom: 88),
         itemCount: eventi.length + 1,

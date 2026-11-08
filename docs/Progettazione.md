@@ -6,8 +6,8 @@ PDF e/o Excel da condividere con genitori e ragazzi.
 
 - **Nome:** "Eventi in tasca" (V-07, deciso da Andrea l'08/11/2026). Il pacchetto Dart resta
   `eventi_bc`: è interno e non compare agli utenti.
-- **Stato:** analisi chiusa salvo le verifiche aperte del §9; fasi F0–F5 completate entro
-  l'08/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F6.
+- **Stato:** analisi chiusa salvo le verifiche aperte del §9; fasi F0–F6 completate entro
+  l'08/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F7.
 - **Repository GitHub:** https://github.com/AntaresNetOrg/eventi-in-tasca, pubblico.
   Licenza MIT, © Andrea Bruno.
 - **Pubblicazione:** account sviluppatore personale di Andrea su App Store e Google Play.
@@ -175,6 +175,10 @@ Deve essere evidente in ogni punto:
 - Eccezione confermata da Andrea: il PDF/Excel da condividere è un **file temporaneo** nella
   cartella cache dell'app, cancellato dopo la condivisione e comunque a ogni avvio. Il
   salvataggio permanente lo fa l'utente dal menu di condivisione.
+  Realizzazione (F6): la sottocartella `condivisione` della cartella temporanea si svuota a ogni
+  avvio e prima di ogni nuova esportazione, ma non appena si chiude il menu di condivisione: su
+  Android l'app che riceve il file potrebbe leggerlo dopo (*inferenza*). Resta quindi al massimo
+  l'ultimo file condiviso, fino al successivo avvio (V-15).
 - Nessuna analitica, nessun tracciamento, nessuna pubblicità.
 
 ### D-01 — Solo client, nessun backend
@@ -365,7 +369,8 @@ Realizzazione (F5, `lib/ui/`, 08/11/2026):
 - Toccando un evento si apre una scheda con tutti i dati, le anomalie e il pulsante "Apri su
   BuonaCaccia" (il tocco non apre subito il browser, così le anomalie si possono leggere).
 - La conferma oltre 50 eventi offre tre scelte: estrai i dettagli, solo elenco, annulla.
-- "Condividi" mostra per ora un avviso: l'esportazione è F6.
+- "Condividi" crea i file nei formati scelti prima della ricerca e apre il menu di condivisione
+  del sistema (F6).
 - Verificata sull'emulatore Android contro il sito reale l'08/11/2026 (Piccole Orme, Lazio:
   7 eventi).
 
@@ -385,6 +390,20 @@ Realizzazione (F5, `lib/ui/`, 08/11/2026):
   URL come collegamenti; intestazione bloccata e filtro automatico; riga finale con la nota D-00.
 
 Nome file: `eventi_<tipo>_<regione>_<aaaammgg>.pdf|xlsx`.
+
+Realizzazione (F6, `lib/export/`, 08/11/2026):
+- **PDF (V-10, scelto da Andrea sui file di prova):** tabella senza "Estrai dettagli", una
+  scheda per evento con i dettagli; le schede non si spezzano tra due pagine. Intestazione su ogni
+  pagina, nota D-00 e numero di pagina in ogni piè di pagina, legenda degli stati alla fine. Le
+  anomalie non compaiono nel PDF (è per i genitori); restano nell'app e nell'Excel.
+- **Excel (deciso da Andrea l'08/11/2026):** il pacchetto `excel` 4.0.6 non supporta
+  collegamenti, blocco dell'intestazione e filtro automatico; si rinuncia a queste tre funzioni.
+  Gli URL sono testo. La quota è un numero con formato `#,##0.00 "€"`: il pacchetto scrive i
+  numeri solo da `double`, quindi i centesimi si convertono solo al momento di scrivere la cella
+  (regola 8 rispettata nel modello). Colonna "Dati da controllare" con le anomalie. Verificato
+  con un lettore indipendente (openpyxl).
+- Nome file: `slug` del tipo e della regione (`tutte-le-regioni` senza regione).
+- Prove: `dart run tool/prove_pdf.dart [cartella]` scrive PDF ed Excel dalle fixture.
 
 ---
 
@@ -476,11 +495,12 @@ eventi_bc/
 | V-07 | **Risolta l'08/11/2026 (Andrea):** nome "Eventi in tasca", repository pubblico `AntaresNetOrg/eventi-in-tasca` | — |
 | V-08 | Costi e requisiti attuali di Apple Developer Program e Google Play Console; obbligo di informativa privacy | Da verificare alla pubblicazione |
 | V-09 | 12 tester per il test chiuso su Play | — |
-| V-10 | Layout del PDF (tabella o schede) leggibile su telefono | Mockup prima di F6 |
+| V-10 | **Risolta l'08/11/2026 (Andrea):** tabella senza dettagli, schede con i dettagli (§5) | — |
 | V-11 | **Letta l'08/11/2026** (una GET ciascuna, autorizzata da Andrea): `robots.txt` vieta solo `/admin/` e `/utenti/` e consente il resto. `Privacy.aspx` è l'informativa del sito (titolare AGESCI; log con IP conservati 12 mesi). `Instructions.aspx` contiene istruzioni per le iscrizioni. In nessuna delle tre ci sono condizioni d'uso sul riuso dei dati o sull'accesso automatico: nessun divieto, ma nemmeno un permesso. `About.aspx` non è stata letta | L'autorizzazione AGESCI (V-06) resta necessaria |
 | V-12 | **Risolta in F0:** il `_` viene convertito solo per iOS (`eventi_bc` → `eventiBc`); valori in §12 | Fissarli prima del primo caricamento sugli store |
 | V-13 | **Risolta il 06/11/2026 (Andrea):** l'etichetta resta "Chiuse" anche per gli eventi non ancora aperti, perché nessuno può iscriversi (D-09) | — |
 | V-14 | **Risolta il 06/11/2026 (Andrea):** con "Estrai dettagli" si estraggono date e località dei singoli appuntamenti (D-11, §3) | — |
+| V-15 | File condivisi: si possono cancellare appena chiuso il menu di condivisione senza rompere l'allegato in Gmail, WhatsApp e simili su Android? Da provare su un telefono vero | Cancellazione a ogni avvio e prima di ogni nuova esportazione (D-00b) |
 
 ---
 

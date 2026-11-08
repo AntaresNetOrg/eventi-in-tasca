@@ -4,11 +4,14 @@ import 'dart:io';
 import 'package:eventi_bc/data/bc_client.dart';
 import 'package:eventi_bc/data/estrazione.dart';
 import 'package:eventi_bc/data/request_scheduler.dart';
+import 'package:eventi_bc/export/file_temporanei.dart';
 import 'package:eventi_bc/ui/app.dart';
+import 'package:eventi_bc/ui/condivisione.dart';
 import 'package:eventi_bc/ui/providers.dart';
 import 'package:eventi_bc/ui/testi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -40,6 +43,7 @@ Future<void> _avvia(
   WidgetTester tester, {
   MockClientHandler sito = _sito,
   Size size = const Size(400, 800),
+  List<Override> altri = const [],
 }) async {
   tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1;
@@ -54,7 +58,10 @@ Future<void> _avvia(
   await tester.pumpWidget(
     ProviderScope(
       retry: (_, _) => null,
-      overrides: [estrazioneProvider.overrideWith((ref) => estrazione)],
+      overrides: [
+        estrazioneProvider.overrideWith((ref) => estrazione),
+        ...altri,
+      ],
       child: const EventiInTascaApp(),
     ),
   );
@@ -246,6 +253,49 @@ void main() {
     // Without a region the fake site returns the full list.
     expect(find.text('Tipo di evento'), findsOneWidget);
     expect(find.textContaining('298 eventi'), findsOneWidget);
+  });
+
+  testWidgets('"Condividi" shares the files of the chosen formats', (
+    tester,
+  ) async {
+    final condivisi = <String>[];
+    final radice = Directory.systemTemp.createTempSync('eventi_bc');
+    addTearDown(() => radice.deleteSync(recursive: true));
+
+    await _avvia(
+      tester,
+      altri: [
+        fileTemporaneiProvider.overrideWith(
+          (ref) => FileTemporanei(() async => radice),
+        ),
+        condividiProvider.overrideWith(
+          (ref) => (files, {required oggetto, required testo, origine}) async {
+            condivisi.addAll(files.map((f) => f.uri.pathSegments.last));
+          },
+        ),
+      ],
+    );
+    await _chiudiAvviso(tester);
+    await _scegli(tester, 'tipo', 'Piccole Orme');
+    await _scegli(tester, 'regione', 'Lazio');
+    await tester.tap(find.text('Excel'));
+    await tester.pumpAndSettle();
+    await _estrai(tester);
+
+    // Writing files and fonts needs real asynchronous I/O.
+    await tester.runAsync(() async {
+      await tester.tap(find.text('Condividi'));
+      for (var i = 0; i < 100 && condivisi.isEmpty; i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+      }
+    });
+    await tester.pumpAndSettle();
+
+    expect(condivisi, hasLength(2));
+    expect(condivisi.first, startsWith('eventi_piccole-orme_lazio_'));
+    expect(condivisi.first, endsWith('.pdf'));
+    expect(condivisi.last, endsWith('.xlsx'));
+    expect(find.text('Condividi'), findsOneWidget);
   });
 
   testWidgets('"Informazioni" states that the app is unofficial', (
