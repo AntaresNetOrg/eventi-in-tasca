@@ -1,0 +1,5 @@
+# Tests against the real site are skipped by default (CLAUDE.md, "Test").
+# Run them with: flutter test --run-skipped --tags live
+tags:
+  live:
+    skip: "Test contro il sito reale: flutter test --run-skipped --tags live"

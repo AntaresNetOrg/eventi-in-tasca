@@ -1,0 +1,39 @@
+# Test settimanale contro il sito reale (P-02): se i parser non riconoscono più
+# le pagine di BuonaCaccia, apre una issue (una sola alla volta).
+name: Test sul sito reale
+
+on:
+  schedule:
+    - cron: "17 5 * * 1" # lunedì, 05:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter test --run-skipped --tags live
+      - name: Apri una issue se il test fallisce
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create live-test --color B60205 \
+            --description "Il test settimanale sul sito reale è fallito" 2>/dev/null || true
+          aperte=$(gh issue list --label live-test --state open --json number --jq 'length')
+          if [ "$aperte" = "0" ]; then
+            gh issue create --label live-test \
+              --title "Il test settimanale su BuonaCaccia è fallito" \
+              --body "Il test contro il sito reale non è passato: le pagine di BuonaCaccia potrebbero essere cambiate. Dettagli: $RUN_URL"
+          fi

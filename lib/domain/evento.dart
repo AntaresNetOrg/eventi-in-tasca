@@ -85,4 +85,34 @@ class Evento {
 
   /// User-visible messages, in Italian, about values out of format.
   final List<String> anomalie;
+
+  /// This event with [nuove] added to its anomalies.
+  Evento conAnomalie(List<String> nuove) => Evento(
+    id: id,
+    url: url,
+    sigla: sigla,
+    branca: branca,
+    titolo: titolo,
+    regione: regione,
+    partenza: partenza,
+    rientro: rientro,
+    quotaCentesimi: quotaCentesimi,
+    localita: localita,
+    iscritti: iscritti,
+    iscrittiMax: iscrittiMax,
+    stato: stato,
+    piuAppuntamenti: piuAppuntamenti,
+    postiFuoriRegione: postiFuoriRegione,
+    postiMoz45: postiMoz45,
+    sottotitolo: sottotitolo,
+    capiCampo: capiCampo,
+    aperturaIscrizioni: aperturaIscrizioni,
+    chiusuraIscrizioni: chiusuraIscrizioni,
+    linkPresentazione: linkPresentazione,
+    appuntamenti: appuntamenti,
+    infoSegreteria: infoSegreteria,
+    contattoMetodologico: contattoMetodologico,
+    contattoAmministrativo: contattoAmministrativo,
+    anomalie: List.unmodifiable([...anomalie, ...nuove]),
+  );
 }

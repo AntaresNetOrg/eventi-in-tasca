@@ -5,8 +5,8 @@ BuonaCaccia l'elenco degli eventi di un tipo, eventualmente filtrato per regione
 PDF e/o Excel da condividere con genitori e ragazzi.
 
 - **Nome:** da decidere (V-07). Nome provvisorio del pacchetto: `eventi_bc`.
-- **Stato:** analisi chiusa salvo le proposte del §0 e le verifiche del §9; fasi F0, F1, F2 e F3
-  completate entro l'08/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F4.
+- **Stato:** analisi chiusa salvo le proposte del §0 e le verifiche del §9; fasi F0–F4
+  completate entro l'08/11/2026 in `~/Developer/Personal/eventi_bc`; prossima fase F5.
 - **Repository GitHub:** da decidere insieme al nome (V-07). Licenza MIT, © Andrea Bruno.
 - **Pubblicazione:** account sviluppatore personale di Andrea su App Store e Google Play.
 - **Sviluppo:** Claude Code in Android Studio (D-16).
@@ -197,6 +197,13 @@ sul dispositivo) e avviso che potrebbe non essere aggiornato.
 - Barra di avanzamento ("12 di 87") e pulsante Annulla; con ~200 eventi si avvisa prima di partire.
 - Errori per singolo evento: l'evento resta in elenco senza dettagli, con segnalazione.
 - I limiti non sono configurabili dall'interfaccia.
+- Realizzazione (F4, `lib/data/`): i limiti valgono per tutte le richieste, elenco compreso.
+  Ognuno dei 2 canali attende 300 ms dopo ogni richiesta prima della successiva; timeout di
+  30 s. I redirect non vengono mai seguiti: un `302` verso `Events.aspx` su `Event.aspx` vuol
+  dire evento non più disponibile, qualunque altro redirect è un errore. Annulla scarta le
+  richieste in coda e interrompe quelle in corso.
+- User-Agent attuale: `eventi_bc/1.0.0 (app non ufficiale per BuonaCaccia)`. L'indirizzo del
+  repository si aggiunge quando sarà deciso (V-07).
 
 ### D-05 — Parser
 - Primo criterio: gli **id ASP.NET** (`MainContent_EventsGridView`,
@@ -208,7 +215,9 @@ sul dispositivo) e avviso che potrebbe non essere aggiornato.
   `__VIEWSTATE` e campi nascosti) da uno script del repository. Nessun nome reale nel repository.
 - Valore fuori formato: l'evento non si scarta mai; si conserva il testo grezzo e si aggiunge
   un'anomalia mostrata all'utente.
-- Test periodico contro il sito reale (P-02). Serve perché non esiste un export ufficiale
+- Test periodico contro il sito reale (P-02): `test/live/` con tag `live`, saltati di
+  default (`dart_test.yaml`), eseguiti il lunedì da `.github/workflows/live.yml`, che apre una
+  issue con etichetta `live-test` se falliscono (una sola aperta alla volta). Sono 4 GET. Serve perché non esiste un export ufficiale
   (confermato da Andrea) e lo scraping è l'unica fonte.
 
 ### D-06 — Export
@@ -381,6 +390,7 @@ Rilevati il 06/11/2026 da `pubspec.lock` e dall'API di pub.dev:
 | `flutter_riverpod` | 3.4.3 | MIT |
 | `cupertino_icons` (da `flutter create`) | 1.0.9 | MIT |
 | `flutter_lints` (solo sviluppo) | 6.0.0 | BSD-3-Clause |
+| `fake_async` (solo sviluppo, F4) | 1.3.3 | Apache-2.0 |
 
 Anche le dipendenze transitive in `pubspec.lock` hanno licenza MIT, BSD-3-Clause o Apache-2.0.
 `excel` 4.0.6 richiede `archive ^3.6.1`: è il vincolo che probabilmente trattiene `pdf` a 3.12.0

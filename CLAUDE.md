@@ -13,8 +13,8 @@ Excel da condividere. È un'utilità **non ufficiale**: non sostituisce BuonaCac
   verificare). Prima di implementare una funzione, leggi le decisioni che la riguardano.
 - **Nome provvisorio:** `eventi_bc` (pacchetto Dart). Il nome definitivo è V-07: non
   inventarne uno.
-- **Stato:** F0–F3 completate (app minima, fixture, menu di riserva, parser di menu, elenco
-  e dettaglio). Prossima fase: F4.
+- **Stato:** F0–F4 completate (app minima, fixture, menu di riserva, parser, client HTTP con
+  limiti e annullamento, test sul sito reale). Prossima fase: F5.
 
 ## Lingua
 
@@ -139,8 +139,9 @@ regione).
 ## Test
 
 - Unitari: nessuna rete, solo fixture.
-- Test contro il sito reale: marcati con il tag `live`, esclusi dall'esecuzione normale,
-  eseguiti dal workflow settimanale (F4).
+- Test contro il sito reale: marcati con il tag `live`, saltati di default (`dart_test.yaml`),
+  eseguiti dal workflow settimanale `.github/workflows/live.yml`. A mano:
+  `flutter test --run-skipped --tags live` (4 GET sul sito).
 
 ## Comandi
 
