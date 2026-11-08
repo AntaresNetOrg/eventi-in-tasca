@@ -355,6 +355,20 @@ Scelte confermate da Andrea l'08/11/2026:
   sui singoli eventi; i messaggi si leggono aprendo l'evento.
 - Tablet: ricerca e risultati affiancati già in F5.
 
+Realizzazione (F5, `lib/ui/`, 08/11/2026):
+- Stato con Riverpod: `filtriProvider` (scelte di ricerca) ed `estrazioneControllerProvider`
+  (una sola estrazione alla volta: ricerca, eventuale conferma, dettagli, risultato o errore;
+  i risultati di un'estrazione annullata vengono scartati). `ProviderScope(retry: null)`: nessun
+  nuovo tentativo automatico, ogni richiesta parte da un'azione dell'utente (D-04).
+- Sul telefono una sola schermata che passa da Ricerca ad Avanzamento/Risultati; "indietro"
+  torna alla ricerca mantenendo le scelte. Da 840 dp di larghezza le due parti sono affiancate.
+- Toccando un evento si apre una scheda con tutti i dati, le anomalie e il pulsante "Apri su
+  BuonaCaccia" (il tocco non apre subito il browser, così le anomalie si possono leggere).
+- La conferma oltre 50 eventi offre tre scelte: estrai i dettagli, solo elenco, annulla.
+- "Condividi" mostra per ora un avviso: l'esportazione è F6.
+- Verificata sull'emulatore Android contro il sito reale l'08/11/2026 (Piccole Orme, Lazio:
+  7 eventi).
+
 ---
 
 ## 5. File esportati
