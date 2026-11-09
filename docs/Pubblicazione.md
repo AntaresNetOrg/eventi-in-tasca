@@ -165,9 +165,8 @@ con una **chiave di caricamento**.
    aggiornata, insieme alla data.
 3. Pubblicazione: il workflow `.github/workflows/pages.yml` costruisce `site/` con Jekyll e
    lo pubblica a ogni push su `main` che tocca `site/` (o a mano da Actions).
-   👤 Una tantum: Settings → Pages → Source **GitHub Actions**, poi lanciare il workflow.
-   È una pubblicazione, quindi la fai tu o me la chiedi esplicitamente.
-   Indirizzi risultanti (*inferenza*, da controllare dopo la prima pubblicazione):
+   Pages è attivo dal 09/11/2026 con sorgente **GitHub Actions**. Indirizzi verificati il
+   09/11/2026 dopo la prima pubblicazione (da usare nelle schede degli store):
    `https://antaresnetorg.github.io/eventi-in-tasca/privacy` e
    `https://antaresnetorg.github.io/eventi-in-tasca/`.
 
@@ -401,7 +400,7 @@ permette di decidere il giorno dopo l'approvazione.
 - [ ] Iscriversi all'Apple Developer Program e accettare il Free Apps Agreement
 - [ ] Dichiarare lo stato DSA su entrambi gli store
 - [x] Scegliere l'email di contatto (`info@antaresnet.org`, 09/11/2026)
-- [ ] Attivare GitHub Pages con sorgente GitHub Actions e controllare gli indirizzi (§3.5)
+- [x] Attivare GitHub Pages con sorgente GitHub Actions e controllare gli indirizzi (§3.5)
 - [ ] Rispondere al questionario sulla crittografia di App Store Connect (§3.4)
 - [ ] Creare la chiave di caricamento Android e `android/key.properties`
 - [ ] Trovare almeno 12 tester (meglio 15–20) con account Google (V-09)
@@ -416,7 +415,7 @@ permette di decidere il giorno dopo l'approvazione.
 - [ ] `ITSAppUsesNonExemptEncryption` in `Info.plist`: dopo la tua risposta al questionario
   sulla crittografia (§3.4)
 - [x] Informativa completa e pagina di supporto in `site/`, con email e data, e workflow
-  di pubblicazione `pages.yml` (§3.5); manca l'attivazione di GitHub Pages
+  di pubblicazione `pages.yml`, pubblicate il 09/11/2026 (§3.5)
 - [x] Bozze dei testi delle schede e screenshot senza dati personali (§4)
 - [x] Grafica in evidenza 1024×500 per Play (§4)
 - [ ] Dopo il primo caricamento: eventuali avvisi di App Store Connect sul manifest della
