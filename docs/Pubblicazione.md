@@ -156,22 +156,20 @@ con una **chiave di caricamento**.
 
 ### 3.5 Informativa privacy su GitHub Pages (P-05)
 
-1. 👤 Scegli l'indirizzo email di contatto. Consiglio: una casella di AntaresNet o un alias
-   dedicato, non l'email personale.
-2. **Pronti l'08/11/2026:** `docs/privacy.md` (informativa completa) e `docs/index.md`
-   (pagina di supporto), con `docs/_config.yml`. Restano da riempire i segnaposto
-   **[indirizzo email di contatto]** e **[data di pubblicazione]**. La frase sui file
-   temporanei descrive il comportamento attuale (cancellati a ogni avvio e alla creazione di
-   un nuovo file): se V-15 cambia, va aggiornata.
-3. 👤 Attivare GitHub Pages (Settings → Pages → ramo `main`, cartella `/docs`) dopo aver
-   inserito l'email: è una pubblicazione, quindi la fai tu o me la chiedi esplicitamente.
-   Indirizzi risultanti (*inferenza*, da controllare dopo l'attivazione):
+1. **Contatto:** `info@antaresnet.org` (scelto da Andrea il 09/11/2026).
+2. **Pronte il 09/11/2026:** `site/privacy.md` (informativa completa, aggiornata al
+   9 novembre 2026) e `site/index.md` (pagina di supporto), con `site/_config.yml`. Le
+   pagine stanno in `site/` e non in `docs/`, così si pubblicano solo queste due e non la
+   documentazione di progetto. La frase sui file temporanei descrive il comportamento
+   attuale (cancellati a ogni avvio e alla creazione di un nuovo file): se V-15 cambia, va
+   aggiornata, insieme alla data.
+3. Pubblicazione: il workflow `.github/workflows/pages.yml` costruisce `site/` con Jekyll e
+   lo pubblica a ogni push su `main` che tocca `site/` (o a mano da Actions).
+   👤 Una tantum: Settings → Pages → Source **GitHub Actions**, poi lanciare il workflow.
+   È una pubblicazione, quindi la fai tu o me la chiedi esplicitamente.
+   Indirizzi risultanti (*inferenza*, da controllare dopo la prima pubblicazione):
    `https://antaresnetorg.github.io/eventi-in-tasca/privacy` e
    `https://antaresnetorg.github.io/eventi-in-tasca/`.
-4. Attenzione: con Pages su `docs/` diventano pubbliche come pagine web anche
-   `Progettazione.md` e questo file. Sono già pubblici nel repository, quindi non cambia nulla
-   sul piano della riservatezza; se preferisci, si usa una cartella dedicata (`site/`) tramite
-   un workflow.
 
 ### 3.6 Pacchetti da caricare
 
@@ -402,8 +400,8 @@ permette di decidere il giorno dopo l'approvazione.
 - [ ] Aprire l'account Google Play Console (personale) e completare la verifica d'identità
 - [ ] Iscriversi all'Apple Developer Program e accettare il Free Apps Agreement
 - [ ] Dichiarare lo stato DSA su entrambi gli store
-- [ ] Scegliere l'email di contatto, inserirla con la data in `docs/privacy.md` e
-  `docs/index.md` (segnaposto tra parentesi quadre), poi attivare GitHub Pages
+- [x] Scegliere l'email di contatto (`info@antaresnet.org`, 09/11/2026)
+- [ ] Attivare GitHub Pages con sorgente GitHub Actions e controllare gli indirizzi (§3.5)
 - [ ] Rispondere al questionario sulla crittografia di App Store Connect (§3.4)
 - [ ] Creare la chiave di caricamento Android e `android/key.properties`
 - [ ] Trovare almeno 12 tester (meglio 15–20) con account Google (V-09)
@@ -417,8 +415,8 @@ permette di decidere il giorno dopo l'approvazione.
 - [x] `appVersion` allineata al `pubspec.yaml`: c'era già un test (§3.3)
 - [ ] `ITSAppUsesNonExemptEncryption` in `Info.plist`: dopo la tua risposta al questionario
   sulla crittografia (§3.4)
-- [x] Informativa completa e pagina di supporto (§3.5); mancano email e data, poi
-  l'attivazione di GitHub Pages
+- [x] Informativa completa e pagina di supporto in `site/`, con email e data, e workflow
+  di pubblicazione `pages.yml` (§3.5); manca l'attivazione di GitHub Pages
 - [x] Bozze dei testi delle schede e screenshot senza dati personali (§4)
 - [x] Grafica in evidenza 1024×500 per Play (§4)
 - [ ] Dopo il primo caricamento: eventuali avvisi di App Store Connect sul manifest della

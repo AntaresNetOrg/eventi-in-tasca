@@ -5,11 +5,9 @@ permalink: /privacy
 
 # Eventi in tasca — Informativa sulla privacy
 
-<!-- TODO(F7, Andrea): contact address and publication date, then enable GitHub Pages. -->
+Ultimo aggiornamento: 9 novembre 2026
 
-Ultimo aggiornamento: **[data di pubblicazione]**
-
-**Sviluppatore e contatto:** Andrea Bruno — **[indirizzo email di contatto]**
+**Sviluppatore e contatto:** Andrea Bruno — [info@antaresnet.org](mailto:info@antaresnet.org)
 
 Eventi in tasca è un'app gratuita e **non ufficiale**: semplifica la consultazione degli
 eventi di BuonaCaccia; iscrizioni e informazioni ufficiali restano su

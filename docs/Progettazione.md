@@ -35,7 +35,7 @@ Tutte riviste da Andrea l'08/11/2026, salvo dove indicato.
 | P-08 | Riverpod per lo stato dell'app | §6 | **Confermata** |
 | P-09 | PDF A4 orizzontale; tabella o scheda per evento da decidere con un mockup | §5, V-10 | **Confermata**: A4 orizzontale, mockup all'inizio di F6 |
 | P-10 | Organizzazione degli identificativi | §12 | **Superata**: `org.antaresnet` (08/11/2026, §12) |
-| P-11 | Fixture HTML anonimizzate come contratto comune futuro con BCEventScraper-rs | D-02 | **Confermata** l'08/11/2026: Andrea mantiene BCEventScraper-rs e BCEventScraper (§1.1). Eventi in tasca resta la fonte delle fixture, che i due progetti copiano da un commit preciso (`scripts/sync-fixtures.sh`, `tests/fixtures/SOURCE`). **Realizzata l'08/11/2026** sui branch `test/shared-fixtures`: parsing separato dalla rete e test in entrambi (Rust 10 nuovi test; Python 8 con Chrome headless). I test hanno trovato un difetto del Rust: un record spurio per evento dalla tabella annidata nella colonna Tipo, corretto |
+| P-11 | Fixture HTML anonimizzate come contratto comune futuro con BCEventScraper-rs | D-02 | **Confermata** l'08/11/2026: Andrea mantiene BCEventScraper-rs e BCEventScraper (§1.1). <br />Eventi in tasca resta la fonte delle fixture, che i due progetti copiano da un commit preciso (`scripts/sync-fixtures.sh`, `tests/fixtures/SOURCE`). <br />**Realizzata l'08/11/2026** sui branch `test/shared-fixtures`: parsing separato dalla rete e test in entrambi (Rust 10 nuovi test; Python 8 con Chrome headless). <br />I test hanno trovato un difetto del Rust: un record spurio per evento dalla tabella annidata nella colonna Tipo, corretto |
 | P-12 | Struttura `lib/` in data / parsing / domain / export / ui | §7 | Realizzata, non contestata |
 | P-13 | Avviso iniziale "app non ufficiale" mostrato a ogni avvio | D-00 | **Confermata** |
 
@@ -276,7 +276,7 @@ un aggiornamento avvenuto tra le due letture (confermato da Andrea il 06/11/2026
   sia autorizzata dai termini del servizio, con autorizzazione "fornita su richiesta".
   L'autorizzazione scritta di AGESCI (V-06) va allegata alle note per la revisione.
 - Privacy: "nessun dato raccolto" (Apple) e modulo Data safety (Google); informativa pubblica
-  (bozza in `docs/privacy.md`, P-05).
+  (`site/privacy.md`, pubblicata con GitHub Pages da `.github/workflows/pages.yml`, P-05).
 
 ### D-13 — Grafica
 - Icona e logo: P-06. Icona scelta da Andrea l'08/11/2026 tra 5 bozze: un calendario
@@ -468,7 +468,8 @@ eventi_bc/
 ├── test/fixtures/             # HTML anonimizzati
 ├── tool/capture_fixtures.sh   # cattura pagine in tool/fixtures_raw/ (ignorata da git)
 ├── tool/anonymize_fixtures.dart, tool/generate_menu.dart
-└── docs/Progettazione.md, docs/privacy.md (bozza)
+├── site/                     # pagine GitHub Pages: supporto e informativa privacy
+└── docs/Progettazione.md, docs/Pubblicazione.md
 ```
 
 ---

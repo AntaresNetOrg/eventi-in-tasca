@@ -1,5 +1,5 @@
 # GitHub Pages (docs/Pubblicazione.md §3.5): support page (index.md) and privacy policy
-# (privacy.md). Not enabled yet: enable it from Settings → Pages, branch main, folder /docs.
+# (privacy.md), built and deployed by .github/workflows/pages.yml.
 title: Eventi in tasca
 description: App non ufficiale per consultare e condividere gli eventi di BuonaCaccia
 lang: it

@@ -23,7 +23,7 @@ altra app.
 
 - Hai trovato un errore o un dato diverso da BuonaCaccia? Apri una segnalazione su
   [GitHub](https://github.com/AntaresNetOrg/eventi-in-tasca/issues) oppure scrivi a
-  **[indirizzo email di contatto]**.
+  [info@antaresnet.org](mailto:info@antaresnet.org).
 - Per iscrizioni, pagamenti e informazioni sugli eventi rivolgiti a BuonaCaccia e alle
   segreterie indicate negli eventi: l'app non le gestisce.
 
