@@ -3,3 +3,9 @@
 title: Eventi in tasca
 description: App non ufficiale per consultare e condividere gli eventi di BuonaCaccia
 lang: it
+# The Pages API reports source path "/" for workflow builds; the theme's "Improve this
+# page" link needs the real folder (site.github is shallow-merged, so set the whole block).
+github:
+  source:
+    branch: main
+    path: /site
